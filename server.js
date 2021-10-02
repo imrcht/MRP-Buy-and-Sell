@@ -1,11 +1,15 @@
 const express = require("express");
-const express = require("dotenv");
+const dotenv = require("dotenv");
+const connectDB = require("./config/db");
 
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
 
 const app = express();
 const PORT = process.env.PORT || 7000;
+
+// connect to database
+connectDB();
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
