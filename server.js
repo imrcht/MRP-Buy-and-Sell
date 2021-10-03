@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const auth = require("./routes/auth");
 
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -12,15 +13,23 @@ const PORT = process.env.PORT || 7000;
 connectDB();
 
 app.set("view engine", "ejs");
+// Body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
-app.get("/", (req, res, next) => {
-	res.render("index");
+// Mount routes
+app.use("/users", auth);
+
+const server = app.listen(PORT, () => {
+	console.log(
+		`Server running in ${process.env.NODE_ENV} mode on port ${PORT}!`.yellow
+			.bold,
+	);
 });
 
-app.listen(PORT, () => {
-	console.log(
-		`Server running in ${process.env.NODE_ENV} mode on port ${PORT}!`,
-	);
+// Handle Unhadled Promise rejections
+process.on("unhandledRejection", (err, Promise) => {
+	console.log(`Error: ${err}`.red.bgCyan);
+	// Close server and exit with 1
+	server.close(() => process.exit(1));
 });
