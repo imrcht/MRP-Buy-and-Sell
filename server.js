@@ -1,7 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const auth = require("./routes/auth");
 
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -16,9 +15,6 @@ app.set("view engine", "ejs");
 // Body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
-
-// Mount routes
-app.use("/users", auth);
 
 const server = app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
