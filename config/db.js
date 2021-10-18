@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
-const colors = require("colors");
-const connectDB = async () => {
-	const conn = await mongoose.connect(
-		`mongodb+srv://${process.env.USER}:${process.env.PWD}@cluster0.vhg7m.mongodb.net/MRPsaleDB`,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		},
-	);
 
-	console.log(
-		`MongoDb Connected: ${conn.connection.host}`.cyan.underline.bold,
-	);
+const MONGO_URI = `mongodb+srv://MRP:collegeProject@cluster0.26gu3.mongodb.net/MRPsaleDb`;
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`Database Connected`);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = connectDB;

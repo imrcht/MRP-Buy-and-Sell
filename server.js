@@ -21,15 +21,12 @@ app.use(express.static(__dirname + "/public"));
 app.use("/users", auth);
 
 const server = app.listen(PORT, () => {
-	console.log(
-		`Server running in ${process.env.NODE_ENV} mode on port ${PORT}!`.yellow
-			.bold,
-	);
+  console.log(`Server started at port ${PORT}`);
 });
 
 // Handle Unhadled Promise rejections
 process.on("unhandledRejection", (err, Promise) => {
-	console.log(`Error: ${err}`.red.bgCyan);
-	// Close server and exit with 1
-	server.close(() => process.exit(1));
+  console.log(`Error: ${err}`);
+  // Close server and exit with 1
+  server.close(() => process.exit(1));
 });
