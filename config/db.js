@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const colors = require("colors");
+
 const connectDB = async () => {
 	const conn = await mongoose.connect(
 		`mongodb+srv://${process.env.USER}:${process.env.PWD}@cluster0.vhg7m.mongodb.net/MRPsaleDB`,
@@ -10,7 +10,7 @@ const connectDB = async () => {
 	);
 
 	console.log(
-		`MongoDb Connected: ${conn.connection.host}`.cyan.underline.bold,
+		`MongoDb Connected: ${conn.connection.host}`,
 	);
 };
 
