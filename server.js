@@ -16,6 +16,23 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
+// just for testing
+app.get('/',(req, res, next)=>{
+	res.render('Home_page.ejs');
+})
+app.get('/login',(req, res,next)=>{
+	res.render('login.ejs');
+})
+app.get('/register',(req, res, next)=>{
+	res.render('user_reg.ejs');
+})
+app.get('/product',(req, res, next)=>{
+	res.render('product.ejs');
+})
+app.get('/sign',(req, res, next)=>{
+	res.render('sign.ejs');
+})
+
 const server = app.listen(PORT, () => {
 	console.log(
 		`Server running in ${process.env.NODE_ENV} mode on port ${PORT}!`
