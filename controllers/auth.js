@@ -51,9 +51,9 @@ exports.postRegister = asyncHandler (async (req, res, next) => {
       phone: phone,
       email: email,
       password: hashedPw,
-      address,
-      city,
-      zipcode
+      address: address,
+      city: city,
+      zipcode: zipcode
     });
 
     const result = await newUser.save();
