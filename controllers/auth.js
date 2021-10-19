@@ -9,7 +9,7 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.getRegister = (req, res, next) => {
-  res.render("user_reg");
+  res.render("register");
 };
 
 exports.postLogin = asyncHandler (async (req, res, next) => {
@@ -33,8 +33,18 @@ exports.postLogin = asyncHandler (async (req, res, next) => {
 
     // const token = jwt.sign({ email: email }, "secretsecretsecret");
 
+<<<<<<< HEAD
     return res.status(201).json({ message: "login successfull" });
 });
+=======
+    return res.render("home", {
+      isAuthenticated: true,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+>>>>>>> master
 
 exports.postRegister = asyncHandler (async (req, res, next) => {
   const name = req.body.name;
@@ -56,8 +66,18 @@ exports.postRegister = asyncHandler (async (req, res, next) => {
       zipcode
     });
 
+<<<<<<< HEAD
     const result = await newUser.save();
     return res
       .status(201)
       .json({ message: "data inserted successfully!", result: result });
 });
+=======
+    await newUser.save();
+
+    return res.redirect("/users/login");
+  } catch (err) {
+    console.log(err);
+  }
+};
+>>>>>>> master

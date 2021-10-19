@@ -34,35 +34,35 @@ const UserSchema = new mongoose.Schema({
   },
   city: {
     type: String,
-    required: [true, "Please enter a city"]
+    required: [true, "Please enter a city"],
   },
   zipcode: {
     type: String,
-    required: [true, "Please enter a zipcode"]
+    required: [true, "Please enter a zipcode"],
   },
   address: {
-			type: String,
-			required: [true, "Please enter a address"],
-		},
-		location: {
-			//  Geo JSON point
-			type: {
-				type: String,
-				enum: ["Point"],
-				required: false,
-			},
-			coordinates: {
-				type: [Number],
-				required: false,
-				index: "2dsphere",
-			},
-			formattedAddress: String,
-			street: String,
-			city: String,
-			state: String,
-			zipcode: String,
-			country: String,
-		},
+    type: String,
+    required: [true, "Please enter a address"],
+  },
+  location: {
+    //  Geo JSON point
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: false,
+    },
+    coordinates: {
+      type: [Number],
+      required: false,
+      index: "2dsphere",
+    },
+    formattedAddress: String,
+    street: String,
+    city: String,
+    state: String,
+    zipcode: String,
+    country: String,
+  },
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   createdAt: {
@@ -87,20 +87,20 @@ UserSchema.pre("save", async function (next) {
 
 // GeoCode and create loacation field
 UserSchema.pre("save", async function (next) {
-	const loc = await geocoder.geocode(this.address);
-	this.location = {
-		type: "Point",
-		coordinates: [loc[0].longitude, loc[0].latitude],
-		formattedAddress: loc[0].formattedAddress,
-		city: this.city,
-		state: loc[0].stateCode,
-		street: loc[0].streetName,
-		zipcode: this.zipcode,
-		country: loc[0].countryCode,
-	};
-	//Do not save address
-	this.address = undefined;
-	next();
+  const loc = await geocoder.geocode(this.address);
+  this.location = {
+    type: "Point",
+    coordinates: [loc[0].longitude, loc[0].latitude],
+    formattedAddress: loc[0].formattedAddress,
+    city: this.city,
+    state: loc[0].stateCode,
+    street: loc[0].streetName,
+    zipcode: this.zipcode,
+    country: loc[0].countryCode,
+  };
+  //Do not save address
+  this.address = undefined;
+  next();
 });
 
 module.exports = mongoose.model("User", UserSchema);
