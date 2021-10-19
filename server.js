@@ -29,6 +29,7 @@ const server = app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
 });
 
+
 // Handle Unhadled Promise rejections
 process.on("unhandledRejection", (err, Promise) => {
   console.log(`Error: ${err}`);
