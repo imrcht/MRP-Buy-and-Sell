@@ -1,7 +1,9 @@
 const nodeGeocoder = require("node-geocoder");
+const confi = require('../secret')
+
 const options = {
-	provider: process.env.PROVIDER,
-	apiKey: process.env.APIKEY,
+	provider: confi.provider,
+	apiKey: confi.apiKey,
 	formatter: null,
 };
 
