@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
+const geocoder = require("../utils/geocoder");
 
 const UserSchema = new mongoose.Schema({
 	name: {
@@ -31,6 +32,37 @@ const UserSchema = new mongoose.Schema({
 		minlenght: 8,
 		select: false,
 	},
+	address: {
+		type: String,
+		required: [true, "Please enter a address"],
+	},
+	location: {
+		//  Geo JSON point
+		type: {
+			type: String,
+			enum: ["Point"],
+			required: false,
+		},
+		coordinates: {
+			type: [Number],
+			required: false,
+			index: "2dsphere",
+		},
+		formattedAddress: String,
+		street: String,
+		city: String,
+		state: String,
+		zipcode: String,
+		country: String,
+	},
+	city: {
+		type: String,
+		required: [true, "Please enter a city"],
+	},
+	zipcode: {
+		type: String,
+		required: [true, "Please enter a zipcode"],
+	},
 	resetPasswordToken: String,
 	resetPasswordExpire: Date,
 	createdAt: {
@@ -50,6 +82,24 @@ const UserSchema = new mongoose.Schema({
 // User middleware to slugify the name and encrypting the password
 UserSchema.pre("save", async function (next) {
 	this.slug = slugify(this.name, { lower: true });
+	next();
+});
+
+// GeoCode and create loacation field
+UserSchema.pre("save", async function (next) {
+	const loc = await geocoder.geocode(this.address);
+	this.location = {
+		type: "Point",
+		coordinates: [loc[0].longitude, loc[0].latitude],
+		formattedAddress: loc[0].formattedAddress,
+		city: this.city,
+		state: loc[0].stateCode,
+		street: loc[0].streetName,
+		zipcode: this.zipcode,
+		country: loc[0].countryCode,
+	};
+	//Do not save address
+	this.address = undefined;
 	next();
 });
 
