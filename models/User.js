@@ -3,86 +3,55 @@ const slugify = require("slugify");
 const geocoder = require("../utils/geocoder");
 
 const UserSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		required: [true, "please add a name"],
-		trim: true,
-		maxlength: [50, "Name cannot be more than of 50 characters"],
-	},
-	slug: String,
-	phone: {
-		type: String,
-		unique: true,
-		maxlength: [20, "Phone "],
-	},
-	email: {
-		type: String,
-		unique: true,
-		required: [true, "Please enter an email address"],
-		match: [/\S+@\S+\.\S+/, "Please enter a valid email address"],
-	},
-	role: {
-		type: String,
-		enum: ["user"],
-		default: "user",
-	},
-	password: {
-		type: String,
-		required: [true, "Please enter password"],
-		minlenght: 8,
-		select: false,
-	},
-	address: {
-		type: String,
-		required: [true, "Please enter a address"],
-	},
-	location: {
-		//  Geo JSON point
-		type: {
-			type: String,
-			enum: ["Point"],
-			required: false,
-		},
-		coordinates: {
-			type: [Number],
-			required: false,
-			index: "2dsphere",
-		},
-		formattedAddress: String,
-		street: String,
-		city: String,
-		state: String,
-		zipcode: String,
-		country: String,
-	},
-	city: {
-		type: String,
-		required: [true, "Please enter a city"],
-	},
-	zipcode: {
-		type: String,
-		required: [true, "Please enter a zipcode"],
-	},
-	resetPasswordToken: String,
-	resetPasswordExpire: Date,
-	createdAt: {
-		type: Date,
-		default: Date.now,
-	},
-	soldProducts: {
-		type: [mongoose.Schema.ObjectId],
-		ref: "Product",
-	},
-	buyedProducts: {
-		type: [mongoose.Schema.ObjectId],
-		ref: "Product",
-	},
+  name: {
+    type: String,
+    required: [true, "please add a name"],
+    trim: true,
+    maxlength: [50, "Name cannot be more than of 50 characters"],
+  },
+  slug: String,
+  phone: {
+    type: String,
+    required: [true, "please enter a phone number"],
+    unique: true,
+    maxlength: [20, "Phone "],
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: [true, "Please enter an email address"],
+    match: [/\S+@\S+\.\S+/, "Please enter a valid email address"],
+  },
+  role: {
+    type: String,
+    default: "user",
+  },
+  password: {
+    type: String,
+    required: [true, "Please enter password"],
+    minlenght: 8,
+    // select: false,
+  },
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  soldProducts: {
+    type: [mongoose.Schema.ObjectId],
+    ref: "Product",
+  },
+  buyedProducts: {
+    type: [mongoose.Schema.ObjectId],
+    ref: "Product",
+  },
 });
 
 // User middleware to slugify the name and encrypting the password
 UserSchema.pre("save", async function (next) {
-	this.slug = slugify(this.name, { lower: true });
-	next();
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
 
 // GeoCode and create loacation field

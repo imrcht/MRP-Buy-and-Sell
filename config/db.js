@@ -1,17 +1,16 @@
 const mongoose = require("mongoose");
 
+const MONGO_URI = `mongodb+srv://MRP:mrpsaleproject@cluster0.7ohbj.mongodb.net/MrpSaleProject`;
 const connectDB = async () => {
-	const conn = await mongoose.connect(
-		`mongodb+srv://${process.env.USER}:${process.env.PWD}@cluster0.vhg7m.mongodb.net/MRPsaleDB`,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		},
-	);
-
-	console.log(
-		`MongoDb Connected: ${conn.connection.host}`,
-	);
+  try {
+    const conn = await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`Database Connected`);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 module.exports = connectDB;
