@@ -32,6 +32,37 @@ const UserSchema = new mongoose.Schema({
     minlenght: 8,
     // select: false,
   },
+  city: {
+    type: String,
+    required: [true, "Please enter a city"]
+  },
+  zipcode: {
+    type: String,
+    required: [true, "Please enter a zipcode"]
+  },
+  address: {
+			type: String,
+			required: [true, "Please enter a address"],
+		},
+		location: {
+			//  Geo JSON point
+			type: {
+				type: String,
+				enum: ["Point"],
+				required: false,
+			},
+			coordinates: {
+				type: [Number],
+				required: false,
+				index: "2dsphere",
+			},
+			formattedAddress: String,
+			street: String,
+			city: String,
+			state: String,
+			zipcode: String,
+			country: String,
+		},
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   createdAt: {
