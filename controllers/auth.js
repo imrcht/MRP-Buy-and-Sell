@@ -8,7 +8,7 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.getRegister = (req, res, next) => {
-  res.render("register");
+  res.render("user_reg");
 };
 
 exports.postLogin = async (req, res, next) => {
@@ -34,9 +34,9 @@ exports.postLogin = async (req, res, next) => {
       throw error;
     }
 
-    const token = jwt.sign({ email: email }, "secretsecretsecret");
+    // const token = jwt.sign({ email: email }, "secretsecretsecret");
 
-    return res.status(201).json({ message: "login successfull", token: token });
+    return res.status(201).json({ message: "login successfull" });
   } catch (err) {
     console.log(err);
   }
