@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const auth = require("./routes/auth");
+
 // Error middlerware
 const errorHandler = require("./middleware/error");
 
@@ -18,6 +19,10 @@ app.set("view engine", "ejs");
 // Body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
+
+app.get("/", (req, res, next) => {
+  res.render("home");
+});
 
 // mount routes
 app.use("/users", auth);
