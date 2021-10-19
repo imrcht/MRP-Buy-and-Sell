@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 
-const MONGO_URI = `mongodb+srv://MRP:mrpsaleproject@cluster0.7ohbj.mongodb.net/MrpSaleProject`;
+const dbInfo = require("../dbInfo");
+
+const MONGO_URI = `mongodb+srv://${dbInfo.username}:${dbInfo.password}@cluster0.7ohbj.mongodb.net/${dbInfo.databaseName}`;
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(MONGO_URI, {
