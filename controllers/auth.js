@@ -1,7 +1,8 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const errorResponse=require('../middleware/error')
+const errorResponse = require('../middleware/error')
+const asyncHandler = require('../middleware/async');
 
 exports.getLogin = (req, res, next) => {
   res.render("login");
@@ -11,38 +12,31 @@ exports.getRegister = (req, res, next) => {
   res.render("user_reg");
 };
 
-exports.postLogin = async (req, res, next) => {
+exports.postLogin = asyncHandler (async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+  const user = await User.findOne({ email: email });
 
-  try {
-    const user = await User.findOne({ email: email });
-
-    if (!user) {
-      const error = new Error(
-        "cannot find the user with this email, if new then please register"
-      );
-      error.statusCode = 404;
-      throw error;
-    }
+  if (!user) {
+    return next(
+      new errorResponse('User not found with this email', 404)
+    );
+  }
 
     const isEqual = await bcrypt.compare(password, user.password);
 
     if (!isEqual) {
-      const error = new Error("incorrect password");
-      error.statusCode = 403;
-      throw error;
+      return next(
+        new errorResponse('Invalid credentials', 401)
+      );
     }
 
     // const token = jwt.sign({ email: email }, "secretsecretsecret");
 
     return res.status(201).json({ message: "login successfull" });
-  } catch (err) {
-    console.log(err);
-  }
-};
+});
 
-exports.postRegister = async (req, res, next) => {
+exports.postRegister = asyncHandler (async (req, res, next) => {
   const name = req.body.name;
   const phone = req.body.phone;
   const email = req.body.email;
@@ -50,15 +44,6 @@ exports.postRegister = async (req, res, next) => {
   const address = req.body.address;
   const city = req.body.city;
   const zipcode = req.body.zipcode;
-
-  try {
-    const user = await User.findOne({ email: email });
-
-    if (user) {
-      return next(
-        new errorResponse('User already exist with this email', 403)
-      )
-    }
 
     const hashedPw = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -75,7 +60,4 @@ exports.postRegister = async (req, res, next) => {
     return res
       .status(201)
       .json({ message: "data inserted successfully!", result: result });
-  } catch (err) {
-    next(err)
-  }
-};
+});
