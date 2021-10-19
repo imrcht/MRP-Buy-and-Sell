@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const errorResponse=require('../middleware/error')
 
 exports.getLogin = (req, res, next) => {
   res.render("login");
@@ -46,16 +47,17 @@ exports.postRegister = async (req, res, next) => {
   const phone = req.body.phone;
   const email = req.body.email;
   const password = req.body.password;
+  const address = req.body.address;
+  const city = req.body.city;
+  const zipcode = req.body.zipcode;
 
   try {
     const user = await User.findOne({ email: email });
 
     if (user) {
-      const error = new Error(
-        "user already exist with this email, please try another or login"
-      );
-      error.statusCode = 403;
-      throw error;
+      return next(
+        new errorResponse('User already exist with this email', 403)
+      )
     }
 
     const hashedPw = await bcrypt.hash(password, 10);
@@ -64,6 +66,9 @@ exports.postRegister = async (req, res, next) => {
       phone: phone,
       email: email,
       password: hashedPw,
+      address,
+      city,
+      zipcode
     });
 
     const result = await newUser.save();
@@ -71,6 +76,6 @@ exports.postRegister = async (req, res, next) => {
       .status(201)
       .json({ message: "data inserted successfully!", result: result });
   } catch (err) {
-    console.log(err);
+    next(err)
   }
 };
