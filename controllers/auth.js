@@ -8,7 +8,7 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.getRegister = (req, res, next) => {
-  res.render("user_reg");
+  res.render("register");
 };
 
 exports.postLogin = async (req, res, next) => {
@@ -36,7 +36,9 @@ exports.postLogin = async (req, res, next) => {
 
     // const token = jwt.sign({ email: email }, "secretsecretsecret");
 
-    return res.status(201).json({ message: "login successfull" });
+    return res.render("home", {
+      isAuthenticated: true,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -67,10 +69,9 @@ exports.postRegister = async (req, res, next) => {
       password: hashedPw,
     });
 
-    const result = await newUser.save();
-    return res
-      .status(201)
-      .json({ message: "data inserted successfully!", result: result });
+    await newUser.save();
+
+    return res.redirect("/users/login");
   } catch (err) {
     console.log(err);
   }
