@@ -1,3 +1,4 @@
 node_modules
 config.env
+dbInfo.js
 secret.js

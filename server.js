@@ -2,8 +2,9 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const auth = require("./routes/auth");
+
 // Error middlerware
-const errorHandler = require('./middleware/error')
+const errorHandler = require("./middleware/error");
 
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -19,8 +20,12 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
 
+app.get("/", (req, res, next) => {
+  res.render("home");
+});
+
 // mount routes
-app.use('/users/', auth);
+app.use("/users", auth);
 
 // Using Middleware
 app.use(errorHandler);
@@ -28,7 +33,6 @@ app.use(errorHandler);
 const server = app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
 });
-
 
 // Handle Unhadled Promise rejections
 process.on("unhandledRejection", (err, Promise) => {
