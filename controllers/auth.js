@@ -33,7 +33,7 @@ exports.postLogin = asyncHandler (async (req, res, next) => {
 
     // const token = jwt.sign({ email: email }, "secretsecretsecret");
 
-    return res.status(201).json({ message: "login successfull" });
+    res.status(201).render('home.ejs');
 });
 
 exports.postRegister = asyncHandler (async (req, res, next) => {
