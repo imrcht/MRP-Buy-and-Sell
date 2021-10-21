@@ -5,11 +5,11 @@ const errorResponse = require("../middleware/error");
 const asyncHandler = require("../middleware/async");
 
 exports.getLogin = (req, res, next) => {
-  res.render("login");
+  res.render("auth/login");
 };
 
 exports.getRegister = (req, res, next) => {
-  res.render("register");
+  res.render("auth/register");
 };
 
 exports.postLogin = asyncHandler(async (req, res, next) => {

@@ -1,7 +1,9 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-const auth = require("./routes/auth");
+
+const authRoutes = require("./routes/auth");
+const productRoutes = require("./routes/product");
 
 // Error middlerware
 const errorHandler = require("./middleware/error");
@@ -25,7 +27,8 @@ app.get("/", (req, res, next) => {
 });
 
 // mount routes
-app.use("/users", auth);
+app.use("/users", authRoutes);
+app.use(productRoutes);
 
 // Using Middleware
 app.use(errorHandler);
