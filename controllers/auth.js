@@ -30,7 +30,7 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
 
   // const token = jwt.sign({ email: email }, "secretsecretsecret");
 
-  return res.redirect("/");
+    return res.status(201).json({ message: "login successfull" });
 });
 
 exports.postRegister = asyncHandler(async (req, res, next) => {
@@ -53,7 +53,8 @@ exports.postRegister = asyncHandler(async (req, res, next) => {
     zipcode: zipcode,
   });
 
-  await newUser.save();
-
-  return res.redirect("/users/login");
+    const result = await newUser.save();
+    return res
+      .status(201)
+      .json({ message: "data inserted successfully!", result: result });
 });
