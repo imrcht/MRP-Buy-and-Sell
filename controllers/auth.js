@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const errorResponse = require("../middleware/error");
 const asyncHandler = require("../middleware/async");
-const secret = require("../secret");
+const secret = require("../security");
 
 exports.getLogin = (req, res, next) => {
 	res.render("auth/login");
@@ -57,6 +57,22 @@ exports.postRegister = asyncHandler(async (req, res, next) => {
 	const result = await newUser.save();
 
 	sendTokenResponse(newUser, 201, res);
+});
+
+// Private to admin
+exports.getUser = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.params.id);
+
+	if (!user) {
+		return next(
+			new errorResponse(`User with ${req.params.id} not found`, 404),
+		);
+	}
+
+	res.status(200).json({
+		success: true,
+		user,
+	});
 });
 
 // create and send cookie and token

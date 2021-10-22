@@ -1,8 +1,10 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-
+const cookieParser = require("cookie-parser");
+// auth routes
 const authRoutes = require("./routes/auth");
+// product auth routes
 const productRoutes = require("./routes/product");
 
 // Error middlerware
@@ -19,8 +21,9 @@ connectDB();
 
 app.set("view engine", "ejs");
 
-// Body parser
+// Body parser and cookiew parser
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(express.static(__dirname + "/public"));
 
 app.get("/", (req, res, next) => {

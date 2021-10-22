@@ -1,5 +1,5 @@
 const nodeGeocoder = require("node-geocoder");
-const confi = require('../secret')
+const confi = require("../security");
 
 const options = {
 	provider: confi.provider,
