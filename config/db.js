@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const secret = require("../secret");
+const secret = require("../security");
 
 const MONGO_URI = `mongodb+srv://${secret.username}:${secret.password}@cluster0.7ohbj.mongodb.net/${secret.databaseName}`;
 const connectDB = async () => {
