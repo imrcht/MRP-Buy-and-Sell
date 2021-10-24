@@ -12,7 +12,7 @@ exports.getProductForm = asyncHandler(async (req, res, next) => {
 
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
   const products = await Product.find();
-  res.status(200).render("product", {
+  res.status(200).render("product/product", {
     products: products,
   });
 });
