@@ -1,7 +1,7 @@
 BELOW ARE THE STEPS WHEN .gitignore IS NOT IGNORING ANY FILE:
 
 
-delete that file whatever is not ignoring 
+delete that file whatever is not getting ignoring 
 
 run command git rm <filename>
 
