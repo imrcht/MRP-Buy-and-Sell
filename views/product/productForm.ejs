@@ -1,57 +1,49 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Product</title>
-    <link rel="stylesheet" type="text/css" href="/css/productstyle.css" />
-  </head>
-  <body>
-    <div class="container-fluid">
+<head>
+	<meta charset="utf-8">
+	<title>product upload form</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/formstyle.css"/>
+</head>
+<body>
+	
+       <div class="row1">
+			<img src="img/MRP.jpg" style="float: left; height: 100%; width: 200px">
+			<a class="acc" href="#"><i class="fas fa-user"></i>MY ACCOUNT</a>
+			<a class="acc" href="#"><i class="fas fa-home"></i>HOME</a>
+	   </div>
+		<div class="row3">
+		<form method="post">
+			<h3 style="text-align: center;">PRODUCT UPLOAD FORM</h3>
+			<label class="tag" for="category">Select Category</label><br>
+    		<select id="category" name="category">
+    			<option value="Head">Select the product category</option>
+      			<option value="Mobile">Mobile</option>
+      			<option value="Cars">Cars</option>
+      			<option value="Bike">Bike</option>
+      			<option value="Furniture">Furniture</option>
+      			<option value="Appliance">Electronic & Appliance</option>
+      			<option value="Fashion">Fashion</option>
+      			<option value="Books">Books</option>
+      			<option value="Sports">Sports Accessories</option>
+    		</select><br><br>
 
-      <div class="background">
-         <div class="cube"></div>
-         <div class="cube"></div>
-         <div class="cube"></div>
-         <div class="cube"></div>
-        <div class="cube"></div>
-        <div class="row1">
-      <img src="img/MRP.jpg" style="float: left; height: 100%; width: 200px">
-    </div>
-    <div class="row2">
-      <h1 style="text-align: center;">PRODUCT UPLOAD FORM</h1>
-    </div>
-    <div class="row3">
-      <form method="post">
-        <label class="tag" for="category">Select Category</label><br>
-          <select id="category" name="category">
-            <option value="Head">Select the product category</option>
-              <option value="Mobile">Mobile</option>
-              <option value="Cars">Cars</option>
-              <option value="Bike">Bike</option>
-              <option value="Furniture">Furniture</option>
-              <option value="Appliance">Electronic & Appliance</option>
-              <option value="Fashion">Fashion</option>
-              <option value="Books">Books</option>
-              <option value="Sports">Sports Accessories</option>
-          </select><br><br><br>
-  
-          <label class="tag" for="img">Upload Product Image</label><br> 
-          <input type="file" name="image" accept="image/*"><br><br><br>
-  
-        <label class="tag" for="bname">Brand/Company Name</label><br>
-          <input id="category" type="text" id="bname" name="brandname" placeholder="Enter the Brand or Company name"><br><br><br>
-  
-          <label class="tag" for="price">Price</label><br>
-          <input id="category" type="text" id="price" name="price" placeholder="Enter the selling price...."><br><br><br> 
-  
-          <label class="tag" for="Desc">Product Description</label><br>
-          <input type="text" id="desc" name="lastname" placeholder="Enter the product Description"><br><br>
-  
-          
-    
-          <input id="submit" type="submit" value="POST">
-      </form>		
-    </div>
-      </div>
-  </body>
+    		<label class="tag" for="img">Upload Product Image</label><br> 
+    		<input type="file" name="image" accept="image/*"><br><br>
+
+			<label class="tag" for="bname">Brand/Company Name</label><br>
+    		<input id="category" type="text" id="bname" name="brandname" placeholder="Enter the Brand or Company name"><br><br>
+
+    		<label class="tag" for="price">Price</label><br>
+    		<input id="category" type="text" id="price" name="price" placeholder="Enter the selling price...."><br><br>
+
+    		<label class="tag" for="Desc">Product Description</label><br>
+    		<input type="text" id="desc" name="lastname" placeholder="Enter the product Description"><br><br>
+
+			<input id="submit" type="submit" value="POST">
+		</form>		
+		</div>
+   
+</body>
 </html>
