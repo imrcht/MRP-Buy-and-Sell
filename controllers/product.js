@@ -59,7 +59,7 @@ exports.postProduct = asyncHandler(async (req, res, next) => {
   const result = await product.save();
 
   if (result) {
-    res.send("product inserted successfully!");
+    return res.redirect("/products/allproducts");
   }
 });
 

@@ -39,7 +39,8 @@ const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/jpeg" ||
     file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg"
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jfif"
   ) {
     cb(null, true);
   } else {
@@ -58,6 +59,7 @@ app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
 );
 
+// TESTING ROUTE
 app.get("/", (req, res, next) => {
   res.render("product/productForm");
 });
