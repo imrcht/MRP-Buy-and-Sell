@@ -69,6 +69,12 @@ app.get("/", (req, res, next) => {
 app.use("/users", authRoutes);
 app.use("/products", productRoutes);
 app.use("/admincontrol", adminRoutes);
+app.use("*", (req, res, next) => {
+	res.status(404).render("error", {
+		msg: "Page not Found",
+		statuscode: 404,
+	});
+});
 
 // Using Middleware
 app.use(errorHandler);
