@@ -20,7 +20,7 @@ exports.getAllProducts = asyncHandler(async (req, res, next) => {
 exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
   const category = req.query.category;
   const products = await Product.find({ category: category });
-  res.status(200).render("product", {
+  res.status(200).render("product/product", {
     products: products,
   });
 });
@@ -28,15 +28,15 @@ exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
 exports.getProductById = asyncHandler(async (req, res, next) => {
   const productId = req.param.productId;
   const product = await Product.findById(productId);
+
   if (!product) {
     return next(
       new errorResponse(`Resource not found of id ${productId}`, 404)
     );
-  } else {
-    res.status(200).render("product", {
-      product: product,
-    });
   }
+  res.status(200).render("singleProduct", {
+    product: product,
+  });
 });
 
 exports.postProduct = asyncHandler(async (req, res, next) => {
