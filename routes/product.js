@@ -11,7 +11,9 @@ router.get("/:productId", productController.getProductById);
 // private routes
 router.get("/listproduct", protect, productController.getProductForm);
 router.post("/listproduct", protect, productController.postProduct);
-router.put("/:productId", protect, productController.updateProduct);
-router.delete("/:productId", protect, productController.deleteProduct);
+router
+	.route("/:productId")
+	.put(protect, productController.updateProduct)
+	.delete(protect, productController.deleteProduct);
 
 module.exports = router;
