@@ -46,15 +46,21 @@ exports.postProduct = asyncHandler(async (req, res, next) => {
   const cost = req.body.cost;
   const description = req.body.description;
 
-  console.log(title);
-  console.log(category);
-  console.log(image);
-  console.log(cost);
-  console.log(description);
+  const imageFileName = image.originalname;
 
-  //   res.status(201).render("product", {
-  //     product,
-  //   });
+  const product = new Product({
+    title: title,
+    category: category,
+    imagePath: imageFileName,
+    cost: cost,
+    description: description,
+  });
+
+  const result = await product.save();
+
+  if (result) {
+    res.send("product inserted successfully!");
+  }
 });
 
 exports.updateProduct = asyncHandler(async (req, res, next) => {

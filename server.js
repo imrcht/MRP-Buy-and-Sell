@@ -7,8 +7,10 @@ const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 // auth routes
 const authRoutes = require("./routes/auth");
-// product auth routes
+// product routes
 const productRoutes = require("./routes/product");
+// admin routes
+const adminRoutes = require("./routes/admin");
 
 // Error middlerware
 const errorHandler = require("./middleware/error");
@@ -57,12 +59,13 @@ app.use(
 );
 
 app.get("/", (req, res, next) => {
-  res.render("home");
+  res.render("product/productForm");
 });
 
 // mount routes
 app.use("/users", authRoutes);
 app.use("/products", productRoutes);
+app.use("/admincontrol", adminRoutes);
 
 // Using Middleware
 app.use(errorHandler);
