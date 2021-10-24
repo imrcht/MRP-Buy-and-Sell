@@ -12,35 +12,78 @@ exports.getProductForm = asyncHandler(async (req, res, next) => {
 
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
   const products = await Product.find();
+  res.status(200).render("product", {
+    products: products,
+  });
 });
 
 exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
   const category = req.query.category;
-  const productsByCategory = await Product.find({ category: category });
+  const products = await Product.find({ category: category });
+  res.status(200).render("product", {
+    products: products,
+  });
 });
 
 exports.getProductById = asyncHandler(async (req, res, next) => {
   const productId = req.param.productId;
   const product = await Product.findById(productId);
+  if (!product) {
+    return next(
+      new errorResponse(`Resource not found of id ${productId}`, 404)
+    );
+  } else {
+    res.status(200).render("product", {
+      product: product,
+    });
+  }
 });
 
 exports.postProduct = asyncHandler(async (req, res, next) => {
   const title = req.body.title;
   const category = req.body.category;
-  const description = req.body.description;
   const image = req.file;
   const cost = req.body.cost;
+  const description = req.body.description;
+
+  console.log(title);
+  console.log(category);
+  console.log(image);
+  console.log(cost);
+  console.log(description);
+
+  //   res.status(201).render("product", {
+  //     product,
+  //   });
 });
 
 exports.updateProduct = asyncHandler(async (req, res, next) => {
-  const updatedTitle = req.body.title;
-  const updatedCategory = req.body.category;
-  const updatedDescription = req.body.description;
-  const updatedDmage = req.file;
-  const updatedCost = req.body.cost;
+  // const updatedTitle = req.body.title;
+  // const updatedCategory = req.body.category;
+  // const updatedDescription = req.body.description;
+  // const updatedDmage = req.file;
+  // const updatedCost = req.body.cost;
 
-  const productId = req.param.productId;
-  const product = await Product.findById(productId);
+  // const productId = req.param.productId;
+  // const product = await Product.findById(productId);
+  const product = await Product.findByIdAndUpdate(
+    req.params.productId,
+    req.body,
+    {
+      runValidators: true,
+      new: true,
+    }
+  );
+
+  if (!product) {
+    return next(
+      new errorResponse(`Resource not found of id ${req.params.productId}`, 404)
+    );
+  }
+
+  res.status(200).render("product", {
+    product,
+  });
 });
 
 exports.deleteProduct = asyncHandler(async (req, res, next) => {
