@@ -29,8 +29,8 @@ function errorHandler(err, req, res, next) {
 	}
 
 	res.status(error.statusCode || 500).render("error", {
-		msg: error.message,
-		statuscode: error.statusCode,
+		msg: error.message || "Internal Server error",
+		statuscode: error.statusCode || 500,
 	});
 }
 
