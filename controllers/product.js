@@ -29,12 +29,12 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
 	const productId = req.params.productId;
 	const product = await Product.findById(productId);
 	if (!product) {
-		res.render("error", {
+		res.status(401).render("error", {
 			msg: "Resourse not found of given id",
 			statuscode: 401,
 		});
 	} else {
-		res.status(200).json({
+		res.status(200).render("product", {
 			product,
 		});
 	}
