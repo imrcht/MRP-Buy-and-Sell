@@ -16,7 +16,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 
 	res.status(200).json({
 		success: true,
-		user,
+		user:user
 	});
 });
 
@@ -32,7 +32,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 		email,
 		phone,
 		password,
-		role,
+		role
 	});
 
 	res.status(201).json({
