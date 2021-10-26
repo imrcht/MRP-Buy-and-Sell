@@ -13,7 +13,7 @@ exports.getProductForm = asyncHandler(async (req, res, next) => {
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
 	const products = await Product.find();
 	res.status(200).render("product/product", {
-		products: products,
+		products: products
 	});
 });
 
@@ -21,7 +21,7 @@ exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
 	const category = req.query.category;
 	const products = await Product.find({ category: category });
 	res.status(200).render("product", {
-		products: products,
+		products: products
 	});
 });
 
@@ -31,11 +31,11 @@ exports.getProductById = asyncHandler(async (req, res, next) => {
 	if (!product) {
 		res.status(401).render("error", {
 			msg: "Resourse not found of given id",
-			statuscode: 401,
+			statuscode: 401
 		});
 	} else {
 		res.status(200).render("product", {
-			product,
+			product
 		});
 	}
 });
@@ -54,7 +54,7 @@ exports.postProduct = asyncHandler(async (req, res, next) => {
 		category: category,
 		imagePath: imageFileName,
 		cost: cost,
-		description: description,
+		description: description
 	});
 
 	const result = await product.save();
@@ -79,7 +79,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 		{
 			runValidators: true,
 			new: true,
-		},
+		}
 	);
 
 	if (!product) {
@@ -87,12 +87,12 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 			new errorResponse(
 				`Resource not found of id ${req.params.productId}`,
 				404,
-			),
+			)
 		);
 	}
 
 	res.status(200).render("product", {
-		product,
+		product
 	});
 });
 
