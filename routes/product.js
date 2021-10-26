@@ -11,12 +11,10 @@ router.get("/productsByCategory", productController.getProductsByCategory);
 router.get("/listproduct", protect, productController.getProductForm);
 router.post("/listproduct", protect, productController.postProduct);
 
-// Public routes
-router.get("/:productId", productController.getProductById);
-
 // Private routes
 router
 	.route("/:productId")
+	.get(productController.getProductById)
 	.put(protect, productController.updateProduct)
 	.delete(protect, productController.deleteProduct);
 

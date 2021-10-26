@@ -28,9 +28,9 @@ function errorHandler(err, req, res, next) {
 		error = new errorResponse(message, 400);
 	}
 
-	res.status(error.statusCode || 500).json({
-		success: false,
-		error: error.message || "Server error",
+	res.status(error.statusCode || 500).render("error", {
+		msg: error.message || "Internal Server error",
+		statuscode: error.statusCode || 500,
 	});
 }
 
