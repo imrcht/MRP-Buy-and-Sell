@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>product upload form</title>
+    <title>update product</title>
     <link
       rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      href="https://use.fontawesome.com/releases/v5.    7.0/css/all.css"
       integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
       crossorigin="anonymous"
     />
@@ -19,11 +19,11 @@
     </div>
     <div class="row3">
       <form
-        action="/products/listproduct"
-        method="post"
+        action="/products/updateProduct/<%=product._id%>"
+        method="POST"
         enctype="multipart/form-data"
       >
-        <h3 style="text-align: center">PRODUCT UPLOAD FORM</h3>
+        <h3 style="text-align: center">Update Product Form</h3>
 
         <label class="tag" for="bname">Product Title</label><br />
         <input
@@ -31,6 +31,7 @@
           type="text"
           id="bname"
           name="title"
+          value="<%=product.title%>"
           placeholder="Enter Product Title"
         /><br /><br />
 
@@ -56,6 +57,7 @@
           type="number"
           id="price"
           name="cost"
+          value="<%=product.cost%>"
           placeholder="Enter the selling price...."
         /><br /><br />
 
@@ -64,10 +66,11 @@
           type="text"
           id="desc"
           name="description"
+          value="<%=product.description%>"
           placeholder="Enter the product Description"
         /><br /><br />
 
-        <input id="submit" type="submit" value="POST" />
+        <input id="submit" type="submit" value="Update Product" />
       </form>
     </div>
   </body>

@@ -7,15 +7,29 @@ const { protect, authorize } = require("../middleware/auth");
 router.get("/allproducts", productController.getAllProducts);
 router.get("/productsByCategory", productController.getProductsByCategory);
 
+router.get("/singleProduct/:productId", productController.getProductById);
+
 // private routes
 router.get("/listproduct", protect, productController.getProductForm);
 router.post("/listproduct", protect, productController.postProduct);
 
 // Private routes
-router
-	.route("/:productId")
-	.get(productController.getProductById)
-	.put(protect, productController.updateProduct)
-	.delete(protect, productController.deleteProduct);
+router.get(
+  "/updateProduct/:productId",
+  protect,
+  productController.getUpdateForm
+);
+
+router.post(
+  "/updateProduct/:productId",
+  protect,
+  productController.updateProduct
+);
+
+router.get(
+  "/deleteProduct/:productId",
+  protect,
+  productController.deleteProduct
+);
 
 module.exports = router;
