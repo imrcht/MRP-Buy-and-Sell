@@ -26,7 +26,7 @@ router.post(
   productController.updateProduct
 );
 
-router.get(
+router.post(
   "/deleteProduct/:productId",
   protect,
   productController.deleteProduct
