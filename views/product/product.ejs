@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Product</title>
+		<link rel="stylesheet" type="text/css" href="/css/productstyle.css" />
+	</head>
+	<body>
+		<div class="card">
+			<% products.forEach(product => { %>
+			<img
+				src="/images/<%=product.imagePath%>"
+				alt="car"
+				style="width: 30%"
+				height="30%"
+			/>
+			<h1>Title : <%= product.title %></h1>
+			<p class="price">Cost : <%= product.cost %></p>
+			<p>Category : <%= product.category %></p>
+			<p>Description : <%= product.description %></p>
+
+			<% }) %>
+		</div>
+		<hr />
+	</body>
+</html>

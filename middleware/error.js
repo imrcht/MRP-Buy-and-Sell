@@ -14,7 +14,7 @@ function errorHandler(err, req, res, next) {
 		const message = `Resource not found of id ${err.value}`;
 		error = new errorResponse(message, 404);
 	}
-	
+
 	// Mongoose Duplicate key
 	if (err.code === 11000) {
 		const message = `Duplicate key Found`;
@@ -27,10 +27,10 @@ function errorHandler(err, req, res, next) {
 		});
 		error = new errorResponse(message, 400);
 	}
-	res.status(error.statusCode || 500).json({
-		success: false,
-		error: error.message || "Server error",
-		
+
+	res.status(error.statusCode || 500).render("error", {
+		msg: error.message || "Internal Server error",
+		statuscode: error.statusCode || 500,
 	});
 }
 

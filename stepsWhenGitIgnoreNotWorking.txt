@@ -1,0 +1,12 @@
+BELOW ARE THE STEPS WHEN .gitignore IS NOT IGNORING ANY FILE:
+
+
+delete that file whatever is not getting ignored
+
+run command git rm <filename>
+
+create another file paste the data of old file in that 
+
+do commit 
+
+than it will be ignored
