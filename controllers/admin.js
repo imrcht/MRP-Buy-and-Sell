@@ -9,14 +9,15 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 	const user = await User.findById(req.params.id);
 
 	if (!user) {
-		return next(
-			new errorResponse(`User with ${req.params.id} not found`, 404),
-		);
+		return res.status(404).render("error", {
+			msg: `User with ${req.params.id} not found`,
+			statuscode: 404,
+		});
 	}
 
 	res.status(200).json({
 		success: true,
-		user:user
+		user: user,
 	});
 });
 
@@ -32,7 +33,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 		email,
 		phone,
 		password,
-		role
+		role,
 	});
 
 	res.status(201).json({
@@ -55,19 +56,18 @@ exports.update = asyncHandler(async (req, res, next) => {
 	let user = await User.findById(req.params.id);
 
 	if (!user) {
-		return next(
-			new errorResponse(`User with id ${req.params.id} not found`, 404),
-		);
+		return res.status(404).render("error", {
+			msg: `User with ${req.params.id} not found`,
+			statuscode: 404,
+		});
 	}
 
 	if (req.user.role !== "admin") {
 		if (req.user.id !== req.params.id) {
-			return next(
-				new errorResponse(
-					`${req.user.name} is not allowed to update another user`,
-					401,
-				),
-			);
+			return res.status(401).render("error", {
+				msg: `${req.user.name} is not allowed to update another user`,
+				statuscode: 401,
+			});
 		}
 	}
 

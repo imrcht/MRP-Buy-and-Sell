@@ -24,7 +24,7 @@ exports.getRegister = (req, res, next) => {
 // @route 	GET users/forgotpassword
 // @access	public
 exports.getForgotPassword = (req, res, next) => {
-	// res.render("forgot");
+	res.render("auth/forgot");
 };
 
 // @desc 	login a user
@@ -37,16 +37,20 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
 	const user = await User.findOne({ email: email });
 
 	if (!user) {
-		return next(new errorResponse("User not found with this email", 404));
+		return res.status(404).render("error", {
+			msg: "User not found with this email",
+			statuscode: 404,
+		});
 	}
 
 	const isEqual = await bcrypt.compare(password, user.password);
 
 	if (!isEqual) {
-		return next(new errorResponse("Invalid credentials", 401));
+		return res.status(401).render("error", {
+			msg: "Invalid Credentials",
+			statuscode: 401,
+		});
 	}
-
-	// const token = jwt.sign({ email: email }, "secretsecretsecret");
 
 	sendTokenResponse(user, 200, res);
 });
@@ -112,7 +116,10 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 exports.postForgotPassword = asyncHandler(async (req, res, next) => {
 	const user = await User.findOne({ email: req.body.email });
 	if (!user) {
-		return next(new errorResponse("user not found", 404));
+		res.status(404).render("error", {
+			msg: "User not found with this email",
+			statuscode: 404,
+		});
 	}
 
 	const resetPasswordToken = user.getResetPasswordToken();
