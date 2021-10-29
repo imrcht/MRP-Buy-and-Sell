@@ -5,6 +5,7 @@ const errorResponse = require("../middleware/error");
 const asyncHandler = require("../middleware/async");
 const secret = require("../security");
 const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
 
 // @desc 	Get login page
 // @route 	GET users/login
@@ -25,6 +26,13 @@ exports.getRegister = (req, res, next) => {
 // @access	public
 exports.getForgotPassword = (req, res, next) => {
   res.render("auth/forgot");
+};
+
+// @desc 	Get resetpassword page
+// @route 	GET users/resetpassword/:resetToken
+// @access	public
+exports.getResetPassword = (req, res, next) => {
+  res.render("auth/reset");
 };
 
 // @desc 	login a user
@@ -130,7 +138,7 @@ exports.postForgotPassword = asyncHandler(async (req, res, next) => {
     "host"
   )}/users/resetpassword/${resetPasswordToken}`;
   const options = {
-    message: `Your reset password url is ${resetUrl}`,
+    resetUrl: resetUrl,
     email: user.email,
     subject: "Reset Password URL",
   };
@@ -157,7 +165,7 @@ exports.postForgotPassword = asyncHandler(async (req, res, next) => {
 // @desc 	Reset Password link
 // @route 	PUT users/resetpassword/:resetToken
 // @access	Public
-exports.resetPassword = asyncHandler(async (req, res, next) => {
+exports.postResetPassword = asyncHandler(async (req, res, next) => {
   const resetPasswordToken = crypto
     .createHash("sha1")
     .update(req.params.resetToken)
@@ -182,7 +190,7 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   user.resetPasswordExpire = undefined;
   user.save();
 
-  sendTokenResponse(user, 200, res);
+  res.status(200).redirect("/users/login");
 });
 
 // create and send cookie and token
