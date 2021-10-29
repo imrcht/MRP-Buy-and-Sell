@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const confi = require("../secret");
+const confi = require("../security");
 const asyncHandler = require("../middleware/async");
 
-const MONGO_URI = `mongodb+srv://${confi.user}:${confi.pwd}@cluster0.7ohbj.mongodb.net/MrpSaleProject`;
+const MONGO_URI = `mongodb+srv://${confi.username}:${confi.password}@cluster0.7ohbj.mongodb.net/MrpSaleProject`;
 const connectDB = asyncHandler(async () => {
 	const conn = await mongoose.connect(MONGO_URI, {
 		useNewUrlParser: true,
