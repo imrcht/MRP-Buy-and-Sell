@@ -12,7 +12,10 @@ router
 	.route("/forgotpassword")
 	.get(authController.getForgotPassword)
 	.post(authController.postForgotPassword);
-router.put("/resetpassword/:resetToken", authController.resetPassword);
+router
+	.route("/resetpassword/:resetToken")
+	.get(authController.getResetPassword)
+	.post(authController.postResetPassword);
 
 // Protected routes
 router.get("/logout", protect, authController.logout);

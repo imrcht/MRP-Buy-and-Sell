@@ -13,10 +13,10 @@ const sendEmail = async (options) => {
 	);
 
 	var mailOptions = {
-		from: `${secrets.from_name} <${secrets.from_email}>`,
+		from: `${secrets.from_email}`,
 		to: options.email,
-		subject: options.subject,
-		text: options.message,
+		subject: "Password Reset",
+		html: `<p>${options.resetUrl}</p>`,
 	};
 
 	const info = await transport.sendMail(mailOptions);
