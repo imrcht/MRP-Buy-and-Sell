@@ -13,15 +13,14 @@ const sendEmail = async (options) => {
 	);
 
 	var mailOptions = {
-		from: `${secrets.from_email}`,
+		from: `"Admin-MRP" <${secrets.from_email}>`,
 		to: options.email,
 		subject: "Password Reset",
-		html: `<p>${options.resetUrl}</p>`,
+		html: `<h1>Hello User</h1><p>Welcome to Our site MRP Sale.</p><p>Click on below link to reset your password</p><h2>${options.resetUrl}</h2>`,
 	};
 
 	const info = await transport.sendMail(mailOptions);
-	console.log(info);
-	console.log(`Message sent: ${info.messageId}`);
+	console.log(`Message sent: ${info.message}`);
 };
 
 module.exports = sendEmail;
