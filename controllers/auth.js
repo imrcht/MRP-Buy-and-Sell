@@ -63,6 +63,73 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res);
 });
 
+// @desc Show User Profile
+// @route GET users/getUser
+// @access Private
+exports.getUser = asyncHandler(async (req, res, next) => {
+  res.render("auth/profile", {
+    user: req.user,
+  });
+});
+
+// @desc Update User Profile
+// @route POST users/updateUser
+// @access Private
+exports.updateUser = asyncHandler(async (req, res, next) => {
+  const updatedName = req.body.name;
+  // this below oldEmail field is a hidden field in auth/profile.ejs
+  const oldEmail = req.body.oldEmail;
+  const updatedPhone = req.body.phone;
+  // const updatedPassword = req.body.password;
+  const updatedAddress = req.body.address;
+  const updatedCity = req.body.city;
+  const updatedState = req.body.state;
+  const updatedCountry = req.body.country;
+  const updatedZipcode = req.body.zipcode;
+
+  const user = await User.findOne({ email: oldEmail });
+
+  console.log(updatedAddress);
+
+  if (!user) {
+    res.status(401).render("error", {
+      msg: "you cannot update yourself",
+      statuscode: 401,
+    });
+  }
+
+  if (updatedName) {
+    user.name = updatedName;
+  }
+  if (updatedPhone) {
+    user.phone = updatedPhone;
+  }
+  if (updatedCity) {
+    user.city = updatedCity;
+    user.location.city = updatedCity;
+  }
+  if (updatedZipcode) {
+    user.zipcode = updatedZipcode;
+    user.location.zipode = updatedZipcode;
+  }
+  if (updatedAddress) {
+    user.location.formattedAddress = updatedAddress;
+  }
+  if (updatedState) {
+    user.location.state = updatedState;
+  }
+
+  if (updatedCountry) {
+    user.location.country = updatedCountry;
+  }
+
+  await user.save();
+
+  res.json({
+    message: "updated successfully",
+  });
+});
+
 // @desc 	Register a user
 // @route 	POST users/register
 // @access	Public
