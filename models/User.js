@@ -71,6 +71,10 @@ const UserSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
+	listedProducts: {
+		type: [mongoose.Schema.ObjectId],
+		ref: "Product",
+	},
 	soldProducts: {
 		type: [mongoose.Schema.ObjectId],
 		ref: "Product",

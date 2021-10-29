@@ -118,6 +118,21 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 	});
 });
 
+// @desc 	Update User details
+// @route 	POST users/updateme
+// @access	Private to User itself
+exports.updateMe = async (req, res, next) => {
+	const user = await User.findByIdAndUpdate(req.user.id, req.body, {
+		runValidators: true,
+		new: true,
+	});
+
+	res.status(200).json({
+		success: true,
+		user,
+	});
+};
+
 // @desc 	Generate Forgot Password token
 // @route 	POST users/forgotpassword
 // @access	Public

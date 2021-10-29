@@ -20,5 +20,6 @@ router
 // Protected routes
 router.get("/logout", protect, authController.logout);
 router.get("/me", protect, authController.getMe);
+router.route("/updateme").post(protect, authController.updateMe);
 
 module.exports = router;
