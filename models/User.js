@@ -105,7 +105,6 @@ UserSchema.pre("save", async function (next) {
 		zipcode: this.zipcode,
 		country: loc[0].countryCode,
 	};
-	//Do not save address
 	// this.address = undefined;
 	next();
 });

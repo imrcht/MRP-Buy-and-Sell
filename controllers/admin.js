@@ -3,7 +3,7 @@ const errorResponse = require("../middleware/error");
 const asyncHandler = require("../middleware/async");
 
 // @desc 	Get single user
-// @route 	GET users/:id
+// @route 	GET admincontrol/:id
 // @access	Private to Admin
 exports.getUser = asyncHandler(async (req, res, next) => {
 	const user = await User.findById(req.params.id);
@@ -22,7 +22,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 });
 
 // @desc 	Create User
-// @route 	POST users/user
+// @route 	POST admincontrol/user
 // @access	Private to Admin
 exports.createUser = asyncHandler(async (req, res, next) => {
 	const { name, email, phone, password, role } = req.body;
@@ -43,14 +43,14 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 });
 
 // @desc 	Get all User
-// @route 	GET users/allusers
+// @route 	GET admincontrol/allusers
 // @access	Private to Admin
 exports.getUsers = asyncHandler(async (req, res, next) => {
 	res.status(200).json(res.advanceResult);
 });
 
 // @desc 	Update user details
-// @route 	PUT users/:id
+// @route 	PUT admincontrol/:id
 // @access	Private to Admin
 exports.update = asyncHandler(async (req, res, next) => {
 	let user = await User.findById(req.params.id);

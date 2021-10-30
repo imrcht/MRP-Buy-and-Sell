@@ -30,13 +30,13 @@ exports.getUpdateForm = asyncHandler(async (req, res, next) => {
 // @route   GET products/allproducts
 // @access	Public
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
-	const products = await Product.find();
+	// const products = await Product.find();
 	res.status(200).render("product/product", {
-		products: products,
+		products: res.advanceResult.data,
 	});
 });
 
-// @desc 	  get products by category
+// @desc 	get products by category
 // @route   GET products/productsbyCategory
 // @access	Public
 exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
@@ -47,7 +47,7 @@ exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
 	});
 });
 
-// @desc 	  Get dingle product
+// @desc 	Get single product
 // @route   GET products/singleProduct/:productId
 // @access	Public
 exports.getProductById = asyncHandler(async (req, res, next) => {
