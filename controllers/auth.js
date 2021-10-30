@@ -129,6 +129,57 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
 	res.status(200).render("auth/profile", {
 		user,
 	});
+	const updatedName = req.body.name;
+	// this below oldEmail field is a hidden field in auth/profile.ejs
+	// const oldEmail = req.body.oldEmail;
+	// const updatedPhone = req.body.phone;
+	// const updatedPassword = req.body.password;
+	const updatedAddress = req.body.address;
+	const updatedCity = req.body.city;
+	const updatedState = req.body.state;
+	const updatedCountry = req.body.country;
+	const updatedZipcode = req.body.zipcode;
+
+	const user = await User.findOne({ email: req.user.email });
+
+	// if (!user) {
+	// 	res.status(401).render("error", {
+	// 		msg: "you cannot update yourself",
+	// 		statuscode: 401,
+	// 	});
+	// }
+
+	if (updatedName) {
+		user.name = updatedName;
+	}
+	// if (updatedPhone) {
+	// 	user.phone = updatedPhone;
+	// }
+	if (updatedCity) {
+		user.city = updatedCity;
+		user.location.city = updatedCity;
+	}
+	if (updatedZipcode) {
+		user.zipcode = updatedZipcode;
+		user.location.zipode = updatedZipcode;
+	}
+	if (updatedAddress) {
+		user.location.formattedAddress = updatedAddress;
+		user.address = updatedAddress;
+	}
+	if (updatedState) {
+		user.location.state = updatedState;
+	}
+
+	if (updatedCountry) {
+		user.location.country = updatedCountry;
+	}
+
+	await user.save();
+
+	res.status(200).render("/auth/profile", {
+		user,
+	});
 });
 
 // @desc 	Register a user
