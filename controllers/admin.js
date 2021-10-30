@@ -82,3 +82,25 @@ exports.update = asyncHandler(async (req, res, next) => {
 		data: user,
 	});
 });
+
+// @desc 	Delete single User
+// @route 	DELETE users/:id
+// @access	Private to Admin
+exports.deleteUser = asyncHandler(async (req, res, next) => {
+	let user = await User.findById(req.params.id);
+
+	if (!user) {
+		return next(
+			new errorResponse(`User with id ${req.params.id} not found`, 404),
+		);
+	}
+	const userRole = user.role;
+	const username = user.name;
+	user = user.remove();
+	// console.log(user);
+
+	res.status(200).json({
+		success: true,
+		message: `${username} of role ${userRole} removed by Admin`,
+	});
+});

@@ -15,7 +15,9 @@ router.get(
 router
 	.route("/:id")
 	.put(protect, authorize("admin"), admincontroller.update)
-	.get(protect, authorize("admin"), admincontroller.getUser);
+	.get(protect, authorize("admin"), admincontroller.getUser)
+	.delete(protect, authorize("admin"), admincontroller.deleteUser);
+
 router.post("/user", protect, authorize("admin"), admincontroller.createUser);
 
 module.exports = router;

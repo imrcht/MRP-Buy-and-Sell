@@ -36,6 +36,59 @@ exports.getResetPassword = (req, res, next) => {
 	res.render("auth/reset");
 };
 
+// @desc 	Register a user
+// @route 	POST users/register
+// @access	Public
+exports.postRegister = asyncHandler(async (req, res, next) => {
+	const name = req.body.name;
+	const phone = req.body.phone;
+	const email = req.body.email;
+	const password = req.body.password;
+	const address = req.body.address;
+	const city = req.body.city;
+	const zipcode = req.body.zipcode;
+
+	const hashedPw = await bcrypt.hash(password, 10);
+
+	const options = {
+		message: "Hi this is rachit",
+		number: phone,
+	};
+
+	try {
+		const result = sendSms(options);
+		if (result) {
+			res.json({
+				success: true,
+			});
+		} else {
+			res.json({
+				success: result,
+			});
+		}
+	} catch (err) {
+		console.log(err);
+		res.json({
+			success: false,
+			error: err,
+		});
+	}
+
+	const newUser = new User({
+		name: name,
+		phone: phone,
+		email: email,
+		password: hashedPw,
+		address: address,
+		city: city,
+		zipcode: zipcode,
+	});
+
+	const result = await newUser.save();
+
+	res.status(201).redirect("/users/login");
+});
+
 // @desc 	login a user
 // @route 	POST users/login
 // @access	Public
@@ -124,57 +177,24 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
 	});
 });
 
-// @desc 	Register a user
-// @route 	POST users/register
-// @access	Public
-exports.postRegister = asyncHandler(async (req, res, next) => {
-	const name = req.body.name;
-	const phone = req.body.phone;
-	const email = req.body.email;
-	const password = req.body.password;
-	const address = req.body.address;
-	const city = req.body.city;
-	const zipcode = req.body.zipcode;
+// @desc 	Update User Password
+// @route 	POST users/updatemypassword
+// @access	Private to User itself
+exports.updateMyPassword = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.user.id);
 
-	const hashedPw = await bcrypt.hash(password, 10);
-
-	const options = {
-		message: "Hi this is rachit",
-		number: phone,
-	};
-
-	try {
-		const result = sendSms(options);
-		if (result) {
-			res.json({
-				success: true,
-			});
-		} else {
-			res.json({
-				success: result,
-			});
-		}
-	} catch (err) {
-		console.log(err);
-		res.json({
-			success: false,
-			error: err,
-		});
+	const isMatch = await bcrypt.compare(
+		req.body.currentpassword,
+		req.user.password,
+	);
+	if (!isMatch) {
+		return next(new errorResponse(`Current password is incorrect`, 401));
 	}
+	const hashedPw = await bcrypt.hash(req.body.newpassword, 10);
+	user.password = hashedPw;
+	await user.save({ validateBeforeSave: false });
 
-	const newUser = new User({
-		name: name,
-		phone: phone,
-		email: email,
-		password: hashedPw,
-		address: address,
-		city: city,
-		zipcode: zipcode,
-	});
-
-	const result = await newUser.save();
-
-	res.status(201).redirect("/users/login");
+	sendTokenResponse(user, 200, res);
 });
 
 // @desc 	Logout User

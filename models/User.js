@@ -109,6 +109,12 @@ UserSchema.pre("save", async function (next) {
 	next();
 });
 
+// middleware to delete products realted to this user
+UserSchema.pre("remove", async function (next) {
+	await this.model("Product").deleteMany({ seller: this._id });
+	next();
+});
+
 // return resetPassword token
 UserSchema.methods.getResetPasswordToken = function () {
 	// generate token
