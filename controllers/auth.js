@@ -80,10 +80,6 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.updateMe = asyncHandler(async (req, res, next) => {
 	const updatedName = req.body.name;
-	// this below oldEmail field is a hidden field in auth/profile.ejs
-	// const oldEmail = req.body.oldEmail;
-	// const updatedPhone = req.body.phone;
-	// const updatedPassword = req.body.password;
 	const updatedAddress = req.body.address;
 	const updatedCity = req.body.city;
 	const updatedState = req.body.state;
