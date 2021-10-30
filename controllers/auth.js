@@ -124,9 +124,9 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
 		user.location.country = updatedCountry;
 	}
 
-	await user.save();
+	await user.save({ validateBeforeSave: false });
 
-	res.status(200).render("/auth/profile", {
+	res.status(200).render("auth/profile", {
 		user,
 	});
 });
