@@ -6,6 +6,7 @@ const asyncHandler = require("../middleware/async");
 const secret = require("../security");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const sendSms = require("../utils/sendSms");
 
 // @desc 	Get login page
 // @route 	GET users/login
@@ -101,9 +102,6 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
 	if (updatedName) {
 		user.name = updatedName;
 	}
-	// if (updatedPhone) {
-	// 	user.phone = updatedPhone;
-	// }
 	if (updatedCity) {
 		user.city = updatedCity;
 		user.location.city = updatedCity;
@@ -119,7 +117,6 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
 	if (updatedState) {
 		user.location.state = updatedState;
 	}
-
 	if (updatedCountry) {
 		user.location.country = updatedCountry;
 	}
@@ -144,6 +141,30 @@ exports.postRegister = asyncHandler(async (req, res, next) => {
 	const zipcode = req.body.zipcode;
 
 	const hashedPw = await bcrypt.hash(password, 10);
+
+	const options = {
+		message: "Hi this is rachit",
+		number: phone,
+	};
+
+	try {
+		const result = sendSms(options);
+		if (result) {
+			res.json({
+				success: true,
+			});
+		} else {
+			res.json({
+				success: result,
+			});
+		}
+	} catch (err) {
+		console.log(err);
+		res.json({
+			success: false,
+			error: err,
+		});
+	}
 
 	const newUser = new User({
 		name: name,
