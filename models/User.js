@@ -88,7 +88,6 @@ const UserSchema = new mongoose.Schema({
 // User middleware to slugify the name and encrypting the password
 UserSchema.pre("save", async function (next) {
 	this.slug = slugify(this.name, { lower: true });
-
 	next();
 });
 

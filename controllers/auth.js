@@ -7,6 +7,7 @@ const secret = require("../security");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const sendSms = require("../utils/sendSms");
+const { emit } = require("process");
 
 // @desc 	Get login page
 // @route 	GET users/login
@@ -14,6 +15,8 @@ const sendSms = require("../utils/sendSms");
 exports.getLogin = (req, res, next) => {
 	res.render("auth/login", {
 		err: "",
+		username: "",
+		password: "",
 	});
 };
 
@@ -36,7 +39,25 @@ exports.getForgotPassword = (req, res, next) => {
 // @desc 	Get resetpassword page
 // @route 	GET users/resetpassword/:resetToken
 // @access	public
-exports.getResetPassword = (req, res, next) => {
+exports.getResetPassword = async (req, res, next) => {
+	const resetPasswordToken = crypto
+		.createHash("sha1")
+		.update(req.params.resetToken)
+		.digest("hex");
+
+	const user = await User.findOne({
+		resetPasswordToken,
+		resetPasswordExpire: {
+			$gt: Date.now(),
+		},
+	});
+
+	if (!user) {
+		return res.status(400).render("error", {
+			msg: "Invalid/ Expird Token",
+			statuscode: 400,
+		});
+	}
 	res.render("auth/reset");
 };
 
@@ -100,17 +121,27 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
 
-	if (!email || !password) {
+	if (!email) {
 		return res.status(400).render("auth/login", {
-			err: "Please fill required field(s)",
+			err: "Please enter username",
+			username: "",
+			password,
 		});
 	}
-
+	if (!password) {
+		return res.status(400).render("auth/login", {
+			err: "Please enter password",
+			username: email,
+			password: "",
+		});
+	}
 	const user = await User.findOne({ email: email });
 
 	if (!user) {
 		return res.status(404).render("auth/login", {
 			err: "User not found!!",
+			username: "",
+			password: "",
 		});
 	}
 
@@ -118,7 +149,9 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
 
 	if (!isEqual) {
 		return res.status(401).render("auth/login", {
-			err: "Invalid password",
+			err: "Invalid password!! Try again",
+			username: email,
+			password: "",
 		});
 	}
 
@@ -278,13 +311,14 @@ exports.postResetPassword = asyncHandler(async (req, res, next) => {
 	});
 
 	if (!user) {
-		res.status(400).render("error", {
+		return res.status(400).render("error", {
 			msg: "Invalid/ Expird Token",
 			statuscode: 400,
 		});
 	}
 
-	user.password = req.body.password;
+	const hashedPw = await bcrypt.hash(req.body.password, 10);
+	user.password = hashedPw;
 	user.resetPasswordToken = undefined;
 	user.resetPasswordExpire = undefined;
 	user.save();
