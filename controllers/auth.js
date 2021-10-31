@@ -12,7 +12,9 @@ const sendSms = require("../utils/sendSms");
 // @route 	GET users/login
 // @access	public
 exports.getLogin = (req, res, next) => {
-	res.render("auth/login");
+	res.render("auth/login", {
+		err: "",
+	});
 };
 
 // @desc 	Get register page
@@ -26,7 +28,9 @@ exports.getRegister = (req, res, next) => {
 // @route 	GET users/forgotpassword
 // @access	public
 exports.getForgotPassword = (req, res, next) => {
-	res.render("auth/forgot");
+	res.render("auth/forgot", {
+		msg: "You can reset your password here.",
+	});
 };
 
 // @desc 	Get resetpassword page
@@ -96,21 +100,25 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
 
+	if (!email || !password) {
+		return res.status(400).render("auth/login", {
+			err: "Please fill required field(s)",
+		});
+	}
+
 	const user = await User.findOne({ email: email });
 
 	if (!user) {
-		return res.status(404).render("error", {
-			msg: "User not found with this email",
-			statuscode: 404,
+		return res.status(404).render("auth/login", {
+			err: "User not found!!",
 		});
 	}
 
 	const isEqual = await bcrypt.compare(password, user.password);
 
 	if (!isEqual) {
-		return res.status(401).render("error", {
-			msg: "Invalid Credentials",
-			statuscode: 401,
+		return res.status(401).render("auth/login", {
+			err: "Invalid password",
 		});
 	}
 
@@ -217,9 +225,8 @@ exports.logout = asyncHandler(async (req, res, next) => {
 exports.postForgotPassword = asyncHandler(async (req, res, next) => {
 	const user = await User.findOne({ email: req.body.email });
 	if (!user) {
-		res.status(404).render("error", {
-			msg: "User not found with this email",
-			statuscode: 404,
+		return res.status(404).render("auth/forgot", {
+			msg: `No user found with email ${req.body.email} !! Try again`,
 		});
 	}
 

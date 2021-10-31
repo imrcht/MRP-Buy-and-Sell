@@ -170,8 +170,8 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
 
 		await res.redirect("/products/allproducts");
 	} else {
-		return res.status(404).render("error", {
-			msg: "you cannot delete product of someone else",
+		return res.status(401).render("error", {
+			msg: "YOu only have the access of products listed buy you",
 			statuscode: 401,
 		});
 	}
