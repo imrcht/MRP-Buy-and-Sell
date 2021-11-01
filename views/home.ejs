@@ -26,9 +26,13 @@
         />
         <a href="/"><i class="fa fa-fw fa-home"></i>HOME</a>
         <a href="#"><i class="fa fa-fw fa-search"></i> CATEGORIES</a>
-        <a href="/users/me"><i class="fa fa-fw fa-user"></i>MY ACCOUNT</a>
-        <a href="/users/login"><i class="fa fa-fw fa-lock"></i>LOGIN</a>
-        <a href="/users/register"><i class="fa fa-fw fa-user"></i>REGISTER</a>
+        <% if(name) { %>
+			<a href="/users/me"><i class="fa fa-fw fa-user"></i>MY ACCOUNT</a>
+			<a href="/users/logout"><i class="fa fa-fw fa-lock"></i>LOGOUT</a>
+        <% } else { %>
+			<a href="/users/login"><i class="fa fa-fw fa-lock"></i>LOGIN</a>
+			<a href="/users/register"><i class="fa fa-fw fa-user"></i>REGISTER</a>
+        <% } %>
       </div>
     </div>
     <diV class="row3">
