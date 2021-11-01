@@ -9,15 +9,17 @@ router.get("/register", authController.getRegister);
 router.post("/register", authController.postRegister);
 router.post("/login", authController.postLogin);
 router
-	.route("/forgotpassword")
-	.get(authController.getForgotPassword)
-	.post(authController.postForgotPassword);
+  .route("/forgotpassword")
+  .get(authController.getForgotPassword)
+  .post(authController.postForgotPassword);
 router
-	.route("/resetpassword/:resetToken")
-	.get(authController.getResetPassword)
-	.post(authController.postResetPassword);
+  .route("/resetpassword/:resetToken")
+  .get(authController.getResetPassword)
+  .post(authController.postResetPassword);
 
 // Protected routes
+router.get("/myproducts/:userId", protect, authController.getMyProducts);
+
 router.get("/logout", protect, authController.logout);
 router.get("/me", protect, authController.getMe);
 router.route("/updateme").post(protect, authController.updateMe);

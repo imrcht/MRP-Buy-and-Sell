@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const Product = require("../models/Product");
+
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const errorResponse = require("../middleware/error");
@@ -60,6 +62,25 @@ exports.getResetPassword = async (req, res, next) => {
   }
   res.render("auth/reset");
 };
+
+// @desc 	Get User Products Page
+// @route 	GET users//myproducts/:userId
+// @access	Protected
+exports.getMyProducts = asyncHandler(async (req, res, next) => {
+  const userId = req.params.userId;
+  const user = await User.findById(userId).populate("listedProducts");
+
+  if (!user) {
+    res.status(500).render("error", {
+      msg: `user cannot be found`,
+      statuscode: 500,
+    });
+  }
+
+  const userListedProducts = user.listedProducts;
+
+  res.json({ products: userListedProducts });
+});
 
 // @desc 	Register a user
 // @route 	POST users/register
