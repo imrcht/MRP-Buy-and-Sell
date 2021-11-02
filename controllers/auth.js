@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const Product = require("../models/Product");
-
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const errorResponse = require("../middleware/error");
@@ -9,7 +8,6 @@ const secret = require("../security");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const sendSms = require("../utils/sendSms");
-const { emit } = require("process");
 
 // @desc 	Get login page
 // @route 	GET users/login
@@ -170,7 +168,6 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 
   res.render("auth/profile", {
     user: user,
-    listedProducts: user.listedProducts,
   });
 });
 
@@ -253,10 +250,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
     expires: new Date(Date.now() + 10 * 1000),
   });
 
-  res.status(200).json({
-    success: true,
-    message: "User logged out",
-  });
+  res.redirect("/");
 });
 
 // @desc 	Generate Forgot Password token

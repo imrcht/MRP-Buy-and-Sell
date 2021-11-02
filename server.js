@@ -12,7 +12,6 @@ const authRoutes = require("./routes/auth");
 const productRoutes = require("./routes/product");
 // admin routes
 const adminRoutes = require("./routes/admin");
-
 // Error middlerware
 const errorHandler = require("./middleware/error");
 
@@ -29,26 +28,26 @@ app.set("view engine", "ejs");
 
 // Storing file
 const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
+	destination: (req, file, cb) => {
+		cb(null, "images");
+	},
+	filename: (req, file, cb) => {
+		cb(null, file.originalname);
+	},
 });
 
 // filtering file
 const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/jpeg" ||
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jfif"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
+	if (
+		file.mimetype === "image/jpeg" ||
+		file.mimetype === "image/png" ||
+		file.mimetype === "image/jpg" ||
+		file.mimetype === "image/jfif"
+	) {
+		cb(null, true);
+	} else {
+		cb(null, false);
+	}
 };
 
 // Body parser and cookiew parser
@@ -59,7 +58,7 @@ app.use(express.static(__dirname + "/public"));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+	multer({ storage: fileStorage, fileFilter: fileFilter }).single("image"),
 );
 
 // Home Route
@@ -70,22 +69,22 @@ app.use("/users", authRoutes);
 app.use("/products", productRoutes);
 app.use("/admincontrol", adminRoutes);
 app.use("*", (req, res, next) => {
-  res.status(404).render("error", {
-    msg: "Page not Found",
-    statuscode: 404,
-  });
+	res.status(404).render("error", {
+		msg: "Page not Found",
+		statuscode: 404,
+	});
 });
 
 // Using Middleware
 app.use(errorHandler);
 
 const server = app.listen(PORT, () => {
-  console.log(`Server started at port ${PORT}`);
+	console.log(`Server started at port ${PORT}`);
 });
 
 // Handle Unhadled Promise rejections
 process.on("unhandledRejection", (err, Promise) => {
-  console.log(`Error: ${err}`);
-  // Close server and exit with 1
-  server.close(() => process.exit(1));
+	console.log(`Error: ${err}`);
+	// Close server and exit with 1
+	server.close(() => process.exit(1));
 });
