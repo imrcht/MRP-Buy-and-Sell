@@ -318,6 +318,21 @@ a>code {
   background-color: rgb(74, 81, 119);
 }
 
+.listedProducts {
+  display: flex;
+  flex-direction: column;
+}
+
+.listedProducts a {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  color: black;
+}
+
+.listedProducts a:hover {
+  color: rgb(47, 55, 95);
+}
+
 @media (min-width: 576px) {
   .container {
     max-width: 540px;
@@ -1234,7 +1249,6 @@ a.text-white:hover, a.text-white:focus {
   h3 {
     page-break-after: avoid;
   }
-  
   body {
     min-width: 992px !important;
   }
@@ -1767,7 +1781,6 @@ textarea[resize='horizontal'] {
     right: 20px;
     left: auto;
   }
-  
   @keyframes hide-navbar-dropdown {
     from {
       opacity: 1;

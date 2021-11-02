@@ -166,10 +166,11 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
 // @route 	GET users/me
 // @access	Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  const user = await User.findById(req.user.id).populate("listedProducts");
 
   res.render("auth/profile", {
     user: user,
+    listedProducts: user.listedProducts,
   });
 });
 
@@ -184,7 +185,9 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
   const updatedCountry = req.body.country;
   const updatedZipcode = req.body.zipcode;
 
-  const user = await User.findOne({ email: req.user.email });
+  const user = await User.findOne({ email: req.user.email }).populate(
+    "listedProducts"
+  );
 
   // if (!user) {
   // 	res.status(401).render("error", {

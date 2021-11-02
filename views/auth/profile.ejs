@@ -128,6 +128,17 @@
                 </div>
                 <hr class="my-4">
 
+                <!-- PRODUCT INFORMATION SECTION -->
+                <h6 class="heading-small text-muted mb-4">Listed Product information</h6>
+
+                <div class="listedProducts">
+                  <% user.listedProducts.forEach(product => { %>
+                     <a href="/products/singleProduct/<%=product._id%>"># <%= product.title %></a>
+                  <% }) %>
+                </div>
+
+                <hr class="my-4">
+
                 <button type="submit" class="btn submit-btn">Update User</button>
                 
               </form>
