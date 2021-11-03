@@ -53,6 +53,7 @@
 											action="/users/postotp"
 										>
 											<div class="form-group">
+												<div><%=err%></div>
 												<div class="input-group">
 													<span
 														class="
@@ -71,6 +72,7 @@
 														placeholder="otp recived on your mobile"
 														class="form-control"
 														type="password"
+														value="<%=smsotp%>"
 													/>
 												</div>
 												<div class="input-group">
@@ -91,6 +93,7 @@
 														placeholder="otp recived on Email-id"
 														class="form-control"
 														type="password"
+														value="<%=emailotp%>"
 													/>
 												</div>
 											</div>

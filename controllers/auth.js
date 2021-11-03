@@ -31,7 +31,17 @@ exports.getLogin = (req, res, next) => {
 // @route 	GET users/register
 // @access	public
 exports.getRegister = (req, res, next) => {
-	res.render("auth/register");
+	res.render("auth/register", {
+		err: "",
+		name: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+		city: "",
+		address: "",
+		phone: "",
+		zipcode: "",
+	});
 };
 
 // @desc 	Get ForgotPassword page
@@ -92,9 +102,16 @@ exports.getMyProducts = asyncHandler(async (req, res, next) => {
 // @access	Public
 exports.postRegister = asyncHandler(async (req, res, next) => {
 	if (req.body.password !== req.body.confirmPassword) {
-		return res.render("error", {
-			msg: "password not matched",
-			statuscode: 401,
+		return res.render("auth/register", {
+			err: `Password Doesn't match`,
+			name: req.body.name,
+			email: req.body.email,
+			password: "",
+			confirmPassword: "",
+			city: req.body.city,
+			address: req.body.address,
+			phone: req.body.phone,
+			zipcode: req.body.zipcode,
 		});
 	}
 
@@ -122,7 +139,11 @@ exports.postRegister = asyncHandler(async (req, res, next) => {
 	};
 	const emailResult = sendEmailOtp(emailoptions);
 
-	res.render("auth/otp");
+	res.render("auth/otp", {
+		err: "",
+		smsotp: "",
+		emailotp: "",
+	});
 });
 
 // exports.getotp = asyncHandler(async (req, res, next) => {
@@ -135,17 +156,19 @@ exports.postOtp = asyncHandler(async (req, res, next) => {
 
 	// Verifying email Otp
 	if (emailotp != otp.emailotp) {
-		return res.status(401).render("error", {
-			msg: `Email otp is incorrect`,
-			statuscode: 401,
+		return res.render("auth/otp", {
+			err: "Wrong Email OTP !!",
+			smsotp,
+			emailotp: "",
 		});
 	}
 
 	// verifying sms otp
 	if (smsotp != otp.smsotp) {
-		return res.status(401).render("error", {
-			msg: `Sms otp is incorrect`,
-			statuscode: 401,
+		return res.render("auth/otp", {
+			err: "Wrong Sms OTP!!",
+			smsotp: "",
+			emailotp,
 		});
 	}
 
