@@ -122,7 +122,7 @@ exports.postRegister = asyncHandler(async (req, res, next) => {
 	};
 	const emailResult = sendEmailOtp(emailoptions);
 
-	res.render("getotp");
+	res.render("auth/otp");
 });
 
 // exports.getotp = asyncHandler(async (req, res, next) => {
