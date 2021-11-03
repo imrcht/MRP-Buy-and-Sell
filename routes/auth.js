@@ -8,14 +8,16 @@ router.get("/login", authController.getLogin);
 router.get("/register", authController.getRegister);
 router.post("/register", authController.postRegister);
 router.post("/login", authController.postLogin);
+router.post("/postotp", authController.postOtp);
+
 router
-  .route("/forgotpassword")
-  .get(authController.getForgotPassword)
-  .post(authController.postForgotPassword);
+	.route("/forgotpassword")
+	.get(authController.getForgotPassword)
+	.post(authController.postForgotPassword);
 router
-  .route("/resetpassword/:resetToken")
-  .get(authController.getResetPassword)
-  .post(authController.postResetPassword);
+	.route("/resetpassword/:resetToken")
+	.get(authController.getResetPassword)
+	.post(authController.postResetPassword);
 
 // Protected routes
 router.get("/myproducts/:userId", protect, authController.getMyProducts);
