@@ -33,7 +33,6 @@ const ProductSchema = new mongoose.Schema({
 		type: mongoose.Schema.ObjectId,
 		ref: "User",
 		trim: true,
-		maxlength: [50, "Seller name cannot be more than of 50 characters"],
 	},
 });
 
