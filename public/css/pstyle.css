@@ -327,10 +327,12 @@ a>code {
   margin-top: 1rem;
   font-size: 1.5rem;
   color: black;
+  transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1) all;
 }
 
 .listedProducts a:hover {
   color: rgb(47, 55, 95);
+  border: 1px dotted black;
 }
 
 @media (min-width: 576px) {
