@@ -2,6 +2,7 @@ const Product = require("../models/Product");
 const errorResponse = require("../middleware/error");
 const asyncHandler = require("../middleware/async");
 const fileDeleteHandler = require("../utils/removeImage");
+const User = require("../models/User");
 
 // @desc 	  get product form
 // @route   GET products/listproduct
@@ -29,13 +30,13 @@ exports.getUpdateForm = asyncHandler(async (req, res, next) => {
 // @route   GET products/allproducts
 // @access	Public
 exports.getAllProducts = asyncHandler(async (req, res, next) => {
-	const products = await Product.find();
+	// const products = await Product.find();
 	res.status(200).render("product/product", {
-		products: products,
+		products: res.advanceResult.data,
 	});
 });
 
-// @desc 	  get products by category
+// @desc 	get products by category
 // @route   GET products/productsbyCategory
 // @access	Public
 exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
@@ -46,7 +47,7 @@ exports.getProductsByCategory = asyncHandler(async (req, res, next) => {
 	});
 });
 
-// @desc 	  Get dingle product
+// @desc 	Get single product
 // @route   GET products/singleProduct/:productId
 // @access	Public
 exports.getProductById = asyncHandler(async (req, res, next) => {
@@ -81,9 +82,25 @@ exports.postProduct = asyncHandler(async (req, res, next) => {
 		imagePath: imageFileName,
 		cost: cost,
 		description: description,
+		seller: req.user._id,
 	});
 
 	const result = await product.save();
+
+	//  Adding product to user
+	let user = await User.findById(req.user.id);
+
+	let addproducts = user.listedProducts;
+	addproducts.push(product._id);
+
+	user = await User.findByIdAndUpdate(
+		req.user.id,
+		{ listedProducts: addproducts },
+		{
+			runValidators: true,
+			new: true,
+		},
+	);
 
 	if (result) {
 		return res.redirect("/products/allproducts");
@@ -105,12 +122,10 @@ exports.updateProduct = (req, res, next) => {
 	Product.findById(productId)
 		.then((product) => {
 			if (!product) {
-				return next(
-					new errorResponse(
-						`Resource not found of id ${req.params.productId}`,
-						404,
-					),
-				);
+				return res.status(404).render("error", {
+					msg: `Resource not found of id ${req.params.productId}`,
+					statuscode: 404,
+				});
 			}
 
 			product.title = updatedTitle;
@@ -144,12 +159,20 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
 	const product = await Product.findById(productId);
 	const imagePath = product.imagePath;
 
-	console.log(product);
+	if (
+		product.seller.toString() === req.user._id.toString() ||
+		req.user.role === "admin"
+	) {
+		// before deleting we first need to delete the image from the system then we'll delete the product from database
+		fileDeleteHandler.deleteFile("images/" + imagePath);
 
-	// before deleting we first need to delete the image from the system then we'll delete the product from database
-	fileDeleteHandler.deleteFile("images/" + imagePath);
+		await Product.deleteOne({ _id: productId });
 
-	await Product.deleteOne({ _id: productId });
-
-	await res.redirect("/products/allproducts");
+		await res.redirect("/products/allproducts");
+	} else {
+		return res.status(401).render("error", {
+			msg: "YOu only have the access of products listed buy you",
+			statuscode: 401,
+		});
+	}
 });

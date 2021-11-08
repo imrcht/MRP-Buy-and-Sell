@@ -4,13 +4,19 @@ const multer = require("multer");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
+const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const expressRateLimit = require("express-rate-limit");
+const hpp = require("hpp");
+// home controller
+const homecontroller = require("./controllers/home");
 // auth routes
 const authRoutes = require("./routes/auth");
 // product routes
 const productRoutes = require("./routes/product");
 // admin routes
 const adminRoutes = require("./routes/admin");
-
 // Error middlerware
 const errorHandler = require("./middleware/error");
 
@@ -54,16 +60,40 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(__dirname + "/public"));
 
+// Set Security headers
+app.use(helmet());
+
+// prevent xss attacks
+app.use(xss());
+
+// sanitize everything Protext from noSQL injection
+app.use(mongoSanitize());
+
+// Rate limit 100 requests per 10 minutes
+const limiter = expressRateLimit({
+	windowMs: 10 * 60 * 1000, // 10 minutes
+	max: 100, // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
+
+// prevent http params pollution attack
+app.use(hpp());
+
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(
 	multer({ storage: fileStorage, fileFilter: fileFilter }).single("image"),
 );
 
+<<<<<<< HEAD
 // TESTING ROUTE
 app.get("/", (req, res, next) => {
 	res.render("index");
 });
+=======
+// Home Route
+app.get("/", homecontroller.getAuth);
+>>>>>>> master
 
 // mount routes
 app.use("/users", authRoutes);

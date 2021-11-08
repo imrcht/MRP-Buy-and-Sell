@@ -71,6 +71,10 @@ const UserSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
+	listedProducts: {
+		type: [mongoose.Schema.ObjectId],
+		ref: "Product",
+	},
 	soldProducts: {
 		type: [mongoose.Schema.ObjectId],
 		ref: "Product",
@@ -84,7 +88,6 @@ const UserSchema = new mongoose.Schema({
 // User middleware to slugify the name and encrypting the password
 UserSchema.pre("save", async function (next) {
 	this.slug = slugify(this.name, { lower: true });
-
 	next();
 });
 
@@ -101,8 +104,13 @@ UserSchema.pre("save", async function (next) {
 		zipcode: this.zipcode,
 		country: loc[0].countryCode,
 	};
-	//Do not save address
 	// this.address = undefined;
+	next();
+});
+
+// middleware to delete products realted to this user
+UserSchema.pre("remove", async function (next) {
+	await this.model("Product").deleteMany({ seller: this._id });
 	next();
 });
 
