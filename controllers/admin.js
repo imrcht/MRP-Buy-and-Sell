@@ -2,7 +2,7 @@ const User = require("../models/User");
 const errorResponse = require("../middleware/error");
 const asyncHandler = require("../middleware/async");
 
-// @desc 	Get single user
+// @desc 	Get single user details
 // @route 	GET admincontrol/:id
 // @access	Private to Admin
 exports.getUser = asyncHandler(async (req, res, next) => {
@@ -42,14 +42,14 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 	});
 });
 
-// @desc 	Get all User
+// @desc 	Get all Users from the database
 // @route 	GET admincontrol/allusers
 // @access	Private to Admin
 exports.getUsers = asyncHandler(async (req, res, next) => {
 	res.status(200).json(res.advanceResult);
 });
 
-// @desc 	Update user details
+// @desc 	Update user details:- checking whether if user is present or not, update user with findByIdAndUpdate method and send response back
 // @route 	PUT admincontrol/:id
 // @access	Private to Admin
 exports.update = asyncHandler(async (req, res, next) => {
@@ -62,14 +62,14 @@ exports.update = asyncHandler(async (req, res, next) => {
 		});
 	}
 
-	if (req.user.role !== "admin") {
-		if (req.user.id !== req.params.id) {
-			return res.status(401).render("error", {
-				msg: `${req.user.name} is not allowed to update another user`,
-				statuscode: 401,
-			});
-		}
-	}
+	// if (req.user.role !== "admin") {
+	// 	if (req.user.id !== req.params.id) {
+	// 		return res.status(401).render("error", {
+	// 			msg: `${req.user.name} is not allowed to update another user`,
+	// 			statuscode: 401,
+	// 		});
+	// 	}
+	// }
 
 	// Update User
 	user = await User.findByIdAndUpdate(req.params.id, req.body, {
@@ -83,7 +83,7 @@ exports.update = asyncHandler(async (req, res, next) => {
 	});
 });
 
-// @desc 	Delete single User
+// @desc 	Delete single User:- check whether a user is present or not, deleting the user with remove method
 // @route 	DELETE users/:id
 // @access	Private to Admin
 exports.deleteUser = asyncHandler(async (req, res, next) => {
