@@ -18,7 +18,11 @@
 		"dotenv": "^10.0.0",
 		"ejs": "^3.1.6",
 		"express": "^4.17.1",
+		"express-mongo-sanitize": "^2.1.0",
+		"express-rate-limit": "^5.5.1",
 		"fast-two-sms": "^3.0.0",
+		"helmet": "^4.6.0",
+		"hpp": "^0.2.3",
 		"jsonwebtoken": "^8.5.1",
 		"messagebird": "^3.7.1",
 		"mongoose": "^6.0.6",
@@ -28,6 +32,7 @@
 		"nodemailer": "^6.6.5",
 		"nodemailer-sendgrid-transport": "^0.2.0",
 		"slugify": "^1.6.0",
-		"sweetalert2": "^11.1.9"
+		"sweetalert2": "^11.1.9",
+		"xss-clean": "^0.1.1"
 	}
 }
