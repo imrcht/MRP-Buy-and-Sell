@@ -7,7 +7,13 @@
         <a href="/" class="button">
           <img
             src="img/logo1.jpeg"
-            style="width: 200px; height: 60px; margin-top: 0px; float: left; margin-left: 2rem;"
+            style="
+              width: 200px;
+              height: 60px;
+              margin-top: 0px;
+              float: left;
+              margin-left: 2rem;
+            "
           />
         </a>
       </div>
@@ -16,8 +22,8 @@
     <div class="nav-links">
       <% if(name) { %>
       <!-- <a href="/products/listproduct" class="link"
-                ><i class="fa fa-fw fa-search"></i>ADD PRODUCT</a
-            > -->
+        ><i class="fa fa-fw fa-search"></i>ADD PRODUCT</a
+      > -->
       <a href="/users/me" class="link"
         ><i class="fa fa-fw fa-user"></i>MY ACCOUNT</a
       >
@@ -71,25 +77,42 @@ c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3
           >All Categories<i class="fa fa-fw fa-arrow-down"></i
         ></a>
         <div class="dropdown-content">
-          <a href="#">Mobile</a> 
-          <a href="#">Cars</a>
-          <a href="#">Bike</a>
-          <a href="#">Furniture</a>
-          <a href="#">Electronic and Appliance</a>
-          <a href="#">Fashion</a>
-          <a href="#">Books</a>
-          <a href="#">Sports and Accessories</a>
+          <a href="/products/productsByCategory?category=Mobile">Mobile</a>
+          <a href="/products/productsByCategory?category=Cars">Cars</a>
+          <a href="/products/productsByCategory?category=Bike">Bikes</a>
+          <a href="/products/productsByCategory?category=Furniture"
+            >Furniture</a
+          >
+          <a href="/products/productsByCategory?category=Appliance"
+            >Electronic and Appliance</a
+          >
+          <a href="/products/productsByCategory?category=Books">Books</a>
+          <a href="/products/productsByCategory?category=Sports"
+            >Sports and Accessories</a
+          >
         </div>
       </div>
-      <a href="#" class="cat"><i class="fa fa-fw fa-mobile"></i>Mobile</a>
-      <a href="#" class="cat"><i class="fa fa-fw fa-car"></i>Cars</a>
-      <a href="#" class="cat"><i class="fa fa-fw fa-motorcycle"></i>Bikes</a>
-      <a href="#" class="cat"><i class="fa fa-fw fa-bed"></i>Furniture</a>
-      <a href="#" class="cat"
+      <a href="/products/productsByCategory?category=Mobile" class="cat"
+        ><i class="fa fa-fw fa-mobile"></i>Mobile</a
+      >
+      <a href="/products/productsByCategory?category=Cars" class="cat"
+        ><i class="fa fa-fw fa-car"></i>Cars</a
+      >
+      <a href="/products/productsByCategory?category=Bike" class="cat"
+        ><i class="fa fa-fw fa-motorcycle"></i>Bikes</a
+      >
+      <a href="/products/productsByCategory?category=Furniture" class="cat"
+        ><i class="fa fa-fw fa-bed"></i>Furniture</a
+      >
+      <a href="/products/productsByCategory?category=Appliance" class="cat"
         ><i class="fa fa-fw fa-laptop"></i>Electronic And Appliances</a
       >
-      <a href="#" class="cat"><i class="fa fa-fw fa-book"></i>Books</a>
-      <a href="#" class="cat"><i class="fa fa-fw fa-book"></i>Sports</a>
+      <a href="/products/productsByCategory?category=Books" class="cat"
+        ><i class="fa fa-fw fa-book"></i>Books</a
+      >
+      <a href="/products/productsByCategory?category=Sports" class="cat"
+        ><i class="fa fa-fw fa-book"></i>Sports</a
+      >
     </div>
     <div class="row2"></div>
   </div>
