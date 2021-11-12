@@ -1,24 +1,16 @@
-.header {
-	background: linear-gradient(
-		60deg,
-		rgba(84, 58, 183, 1) 0%,
-		rgba(0, 172, 193, 1) 100%
-	);
-}
-
 .nav {
+	
 	display: flex;
-	justify-content: space-between;
-	padding: 0 20px;
 	height: 80px;
 	width: 100%;
 	background-color: whitesmoke;
 	position: fixed;
 }
 
-.nav > .nav-header {
-	display: inline;
+.one{
+	margin-top: 0px;
 }
+
 
 .nav > .nav-header > .nav-title {
 	display: inline-block;
@@ -26,13 +18,11 @@
 	padding: 10px 10px 10px 10px;
 }
 
-.nav > .nav-btn {
-	display: none;
-}
+
 
 .nav > .nav-links {
 	display: inline;
-	margin-left: 500px;
+	margin-left: 850px;
 	float: right;
 	font-size: 18px;
 	color: black;
@@ -64,6 +54,7 @@
 	margin-top: 8px;
 	color: #fff;
 	font-weight: bold;
+	margin-left: 20px;
 }
 
 .button {
@@ -110,12 +101,16 @@ span {
 body {
 	padding-top: 20px;
 	padding-bottom: 20px;
+	margin: 0;
 }
 
 h1 {
 	text-align: center;
 }
 
+.container{
+	margin-top: 100px;
+}
 .well {
 	background-color: rgba(0, 0, 0, 0.5) !important;
 }
