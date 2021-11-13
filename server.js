@@ -85,15 +85,8 @@ app.use(
 	multer({ storage: fileStorage, fileFilter: fileFilter }).single("image"),
 );
 
-<<<<<<< HEAD
-// TESTING ROUTE
-app.get("/", (req, res, next) => {
-	res.render("index");
-});
-=======
 // Home Route
 app.get("/", homecontroller.getAuth);
->>>>>>> master
 
 // mount routes
 app.use("/users", authRoutes);
