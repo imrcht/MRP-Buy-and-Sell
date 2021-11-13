@@ -21,10 +21,12 @@ router
 
 // Protected routes
 router.get("/myproducts/:userId", protect, authController.getMyProducts);
-
 router.get("/logout", protect, authController.logout);
 router.get("/me", protect, authController.getMe);
 router.route("/updateme").post(protect, authController.updateMe);
-router.post("/updatemypassword", protect, authController.updateMyPassword);
+router
+	.route("/updatemypassword")
+	.get(protect, authController.getUpdateMyPassword)
+	.post(protect, authController.updateMyPassword);
 
 module.exports = router;

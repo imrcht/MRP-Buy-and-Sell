@@ -1877,3 +1877,14 @@ p {
 #navbar .navbar {
   margin-bottom: 20px;
 }
+
+.updatePasswordArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.updatePasswordArea a {
+  margin-left: 1rem;
+  text-decoration: underline;
+}

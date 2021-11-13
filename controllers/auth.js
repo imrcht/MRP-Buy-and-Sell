@@ -78,6 +78,54 @@ exports.getResetPassword = async (req, res, next) => {
 	res.render("auth/reset");
 };
 
+// @desc Get update password page
+// @route Get users/updatePassword
+// @access	Protected
+exports.getUpdateMyPassword = asyncHandler(async (req, res, next) => {
+	const userId = req.user.id;
+
+	const user = await User.findById(userId);
+
+	if (!user) {
+		res.status(500).render("error", {
+			msg: `user cannot be found`,
+			statuscode: 404,
+		});
+	}
+	res.render("auth/updatePassword", {
+		userId: userId,
+		error: "",
+	});
+});
+
+// @desc 	Update User Password
+// @route 	POST users/updatemypassword
+// @access	Private to User itself
+exports.updateMyPassword = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.user.id);
+
+	if (req.body.newPassword != req.body.confirmNewPassword) {
+		return res.render("auth/updatePassword", {
+			error: "Confirm Password is not matched",
+		});
+	}
+
+	const isMatch = await bcrypt.compare(
+		req.body.currentpassword,
+		req.user.password,
+	);
+	if (!isMatch) {
+		return res.render("auth/updatePassword", {
+			error: "Current password is incorrect",
+		});
+	}
+	const hashedPw = await bcrypt.hash(req.body.newPassword, 10);
+	user.password = hashedPw;
+	await user.save({ validateBeforeSave: false });
+
+	res.redirect("/users/me");
+});
+
 // @desc 	Get User Products Page
 // @route 	GET users//myproducts/:userId
 // @access	Protected
@@ -291,26 +339,6 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
 	res.status(200).render("auth/profile", {
 		user,
 	});
-});
-
-// @desc 	Update User Password
-// @route 	POST users/updatemypassword
-// @access	Private to User itself
-exports.updateMyPassword = asyncHandler(async (req, res, next) => {
-	const user = await User.findById(req.user.id);
-
-	const isMatch = await bcrypt.compare(
-		req.body.currentpassword,
-		req.user.password,
-	);
-	if (!isMatch) {
-		return next(new errorResponse(`Current password is incorrect`, 401));
-	}
-	const hashedPw = await bcrypt.hash(req.body.newpassword, 10);
-	user.password = hashedPw;
-	await user.save({ validateBeforeSave: false });
-
-	sendTokenResponse(user, 200, res);
 });
 
 // @desc 	Logout User

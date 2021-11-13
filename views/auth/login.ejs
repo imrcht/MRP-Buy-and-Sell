@@ -17,8 +17,16 @@
 			integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
 			crossorigin="anonymous"
 		/>
+		
+		<link
+		rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"
+		/>
+
 	</head>
 	<body>
+		<!-- header include -->
+		<%- include('../partials/header.ejs') %>
 		<div class="container">
 			<div class="d-flex justify-content-center h-100">
 				<div class="card">
@@ -33,7 +41,7 @@
 						</div>
 					</div>
 					<div class="card-body">
-						<div><%=err%></div>
+						<div class="err"><%=err%></div>
 						<form action="/users/login" method="POST">
 							<div class="input-group form-group">
 								<div class="input-group-prepend">
@@ -90,5 +98,48 @@
 				</div>
 			</div>
 		</div>
+		<!--Waves Container-->
+		<div>
+			<svg
+			  class="waves"
+			  xmlns="http://www.w3.org/2000/svg"
+			  xmlns:xlink="http://www.w3.org/1999/xlink"
+			  viewBox="0 24 150 28"
+			  preserveAspectRatio="none"
+			  shape-rendering="auto"
+			>
+			  <defs>
+				<path
+				  id="gentle-wave"
+				  d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+				/>
+			  </defs>
+			  <g class="parallax">
+				<use
+				  xlink:href="#gentle-wave"
+				  x="48"
+				  y="0"
+				  fill="rgba(255,255,255,0.7"
+				/>
+				<use
+				  xlink:href="#gentle-wave"
+				  x="48"
+				  y="3"
+				  fill="rgba(255,255,255,0.5)"
+				/>
+				<use
+				  xlink:href="#gentle-wave"
+				  x="48"
+				  y="5"
+				  fill="rgba(255,255,255,0.3)"
+				/>
+				<use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+			  </g>
+			</svg>
+		  </div>
+		  <!--Waves end-->
+		</div>
+		  <!-- footer include  -->
+		  <%-include('../partials/footer.ejs') %>	  
 	</body>
 </html>

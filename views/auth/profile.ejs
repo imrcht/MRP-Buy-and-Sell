@@ -8,6 +8,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 </head>
 <body>
+  
 	<div class="main-content">
 
     <!-- Top navbar -->
@@ -76,7 +77,8 @@
                     <div class="col-lg-6">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-first-name">Password</label>
-                        <input disabled name="password" type="password" id="input-first-name" class="form-control form-control-alternative" placeholder="password" value="<%= user.password %>">
+                        <!-- button for PASSWORD UPDATION -->
+                        <a href="/users/updatemypassword" class="form-control form-control-alternative" >Update Password</a>
                       </div>
                     </div>
                     <div class="col-lg-6">
@@ -126,6 +128,8 @@
                     </div>
                   </div>
                 </div>
+                <hr class="my-4">
+
                 <hr class="my-4">
 
                 <!-- PRODUCT INFORMATION SECTION -->
