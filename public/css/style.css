@@ -401,8 +401,13 @@ span {
 }
 
 .footer-clean .copyright {
-  margin-top: 14px;
-  margin-bottom: 0;
-  font-size: 13px;
+  margin-bottom: -0.5rem;
+  text-align: center;
+  font-size: 1rem;
   opacity: 0.6;
+}
+
+.insta-handle h3 {
+  font-size: 0.7rem;
+  font-weight: 600;
 }
