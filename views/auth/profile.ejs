@@ -6,6 +6,10 @@
 	<title>PROFILE</title>
 	<link rel="stylesheet" type="text/css" href="/css/pstyle.css" />
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"
+    />
 </head>
 <body>
   
@@ -78,7 +82,7 @@
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-first-name">Password</label>
                         <!-- button for PASSWORD UPDATION -->
-                        <a href="/users/updatemypassword" class="form-control form-control-alternative" >Update Password</a>
+                        <a href="#popup1" class="form-control form-control-alternative" >Update Password</a>
                       </div>
                     </div>
                     <div class="col-lg-6">
@@ -144,7 +148,36 @@
                 <hr class="my-4">
 
                 <button type="submit" class="btn submit-btn">Update User</button>
-                
+                <div id="popup1" class="overlay">
+                  <div class="popup">
+                    <h1 class="heading">UPDATE YOUR PASSWORD</h1>
+                    <a class="close" href="#">&times;</a>
+                    <div class="content">
+                      
+                      <form action="/users/updatemypassword" method="POST">
+                        <a class="hello"><i class="fa fa-fw fa-key"></i>Enter Current Password</a><br>
+                        <input class="sat"
+                          type="password"
+                          name="currentpassword"
+                          placeholder="current password"
+                        /><br><br>
+                        <a class="hello"><i class="fa fa-fw fa-key"></i>Enter New Password</a><br>
+                        <input class="sat"
+                          type="password"
+                          name="newPassword"
+                          placeholder="new password"
+                        /><br><br>
+                        <a class="hello"><i class="fa fa-fw fa-key"></i>Confirm New Password</a><br>
+                        <input class="sat"
+                          type="password"
+                          name="confirmNewPassword"
+                          placeholder="confirm new password"
+                        /><br><br>
+                        <button class="click" type="submit">Update Password</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </form>
             </div>
           </div>
