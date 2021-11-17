@@ -129,13 +129,39 @@
 			>
 		</div>
 		<div class="row2">
+			<% if(name) { %>
 			<div class="col21">
-				<button class="click" type="submit"><i class="fa fa-fw fa-shopping-cart"></i>BUY</button>
+				<a href="/products/allproducts">
+					<button class="click" type="submit">
+						<i class="fa fa-fw fa-shopping-cart"></i>BUY
+					</button>
+				</a>
 			</div>
-			
+
 			<div class="col21">
-				<button class="click" type="submit"><i class="fa fa-fw fa-plus"></i>SELL</button>
+				<a href="/products/listproduct">
+					<button class="click" type="submit">
+						<i class="fa fa-fw fa-plus"></i>SELL
+					</button>
+				</a>
 			</div>
+			<% } else { %>
+			<div class="col21">
+				<a href="/users/login">
+					<button class="click" type="submit">
+						<i class="fa fa-fw fa-shopping-cart"></i>BUY
+					</button>
+				</a>
+			</div>
+
+			<div class="col21">
+				<a href="/users/login">
+					<button class="click" type="submit">
+						<i class="fa fa-fw fa-plus"></i>SELL
+					</button>
+				</a>
+			</div>
+			<% } %>
 		</div>
 	</div>
 
