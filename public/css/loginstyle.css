@@ -112,10 +112,11 @@ span {
 
 html,
 body {
-	background-image: url("img/login.jpeg");
+	background-image: url("/img/login.jpeg");
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: 100%;
+	width: 100%;
 	font-family: "Numans", sans-serif;
 }
 
@@ -125,6 +126,7 @@ body {
 }
 
 .card {
+	
 	height: 370px;
 	margin-top: auto;
 	margin-bottom: auto;
