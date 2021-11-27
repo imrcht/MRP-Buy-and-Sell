@@ -3,6 +3,11 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+.row{
+	height: 100px;
+	width: 100%;
+	
+}
 .nav {
 	display: flex;
 	height: 80px;
@@ -143,3 +148,177 @@ span {
 	width: 100%;
 	height: 100px;
 }
+
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,700);
+ *, *:before, *:after {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+ html, body {
+   width: 100%;
+   height: 100%;
+}
+ body {
+   font-family: 'Raleway', sans-serif;
+   line-height: 160%;
+   font-size: 100%;
+}
+
+ .gallery {
+   width: 100%;
+   max-width: 60rem;
+   margin-right: auto;
+   margin-left: auto;
+   padding-right: 2rem;
+   padding-bottom: 4rem;
+   padding-left: 2rem;
+}
+ .gallery .item {
+   width: 100%;
+   padding-top: 2rem;
+   padding-bottom: 2rem;
+   display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   align-items: center;
+   flex-wrap: wrap;
+}
+ @media (max-width: 40rem) {
+   .gallery .item {
+     padding-top: 4rem;
+     padding-bottom: 4rem;
+     flex-direction: column;
+     text-align: center;
+  }
+}
+ .gallery .item:nth-child(even) {
+   justify-content: flex-end;
+}
+ .gallery .item:nth-child(even) .img-wrap {
+   order: 2;
+}
+ @media (max-width: 40rem) {
+   .gallery .item:nth-child(even) .img-wrap {
+     order: 0;
+  }
+}
+ .gallery .item:nth-child(even) caption {
+   order: 1;
+}
+ @media (max-width: 40rem) {
+   .gallery .item:nth-child(even) caption {
+     order: 0;
+  }
+}
+ .gallery .item .img-wrap {
+   position: relative;
+   padding: 0.8rem;
+   flex-basis: 50%;
+   border-radius: 50%;
+}
+ @media (max-width: 40rem) {
+   .gallery .item .img-wrap {
+     width: 80%;
+     flex-basis: 80%;
+  }
+}
+ .gallery .item .img-wrap:before, .gallery .item .img-wrap:after {
+   content: '';
+   position: absolute;
+   border-radius: 50%;
+   transform: rotate(-90deg);
+}
+ .gallery .item .img-wrap:before {
+   top: 1px;
+   right: 1px;
+   bottom: 1px;
+   left: 1px;
+   border-top: 1px solid #d4af37;
+   border-right: 1px solid transparent;
+   border-bottom: 1px solid #d4af37;
+   border-left: 1px solid transparent;
+}
+ .gallery .item .img-wrap:after {
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   border-top: 3px solid #d9d9d9;
+   border-right: 3px solid transparent;
+   border-bottom: 3px solid #d9d9d9;
+   border-left: 3px solid transparent;
+   transition: transform 0.5s;
+}
+ .gallery .item .img-wrap img {
+   display: block;
+   width: 100%;
+   height: 15%;
+   padding: 1.5rem;
+   border-radius: 50%;
+   background-color: #e6e6e6;
+   background-image: radial-gradient(#e6e6e6, #ccc 80%);
+   background-size: 130% 130%;
+   background-position: 0 0;
+   background-repeat: no-repeat;
+   box-shadow: inset 2px 2px 5px #b3b3b3, 2px 2px 15px #e6e6e6, inset 15px 15px 50px rgba(0, 0, 0, 0.1);
+}
+ .gallery .item:hover .img-wrap:after {
+   transform: rotate(0deg);
+}
+ .gallery .item:nth-child(1) .img-wrap, .gallery .item:nth-child(5) .img-wrap {
+   width: 30%;
+   flex-basis: 30%;
+}
+ @media (max-width: 40rem) {
+   .gallery .item:nth-child(1) .img-wrap, .gallery .item:nth-child(5) .img-wrap {
+     width: 60%;
+     flex-basis: 60%;
+  }
+}
+ .gallery .item:nth-child(2) .img-wrap, .gallery .item:nth-child(4) .img-wrap {
+   width: 40%;
+   flex-basis: 40%;
+}
+ @media (max-width: 40rem) {
+   .gallery .item:nth-child(2) .img-wrap, .gallery .item:nth-child(4) .img-wrap {
+     width: 70%;
+     flex-basis: 70%;
+  }
+}
+ .gallery .item .caption {
+   padding-right: 5rem;
+   padding-left: 5rem;
+   position: relative;
+   color: #999;
+}
+ @media (max-width: 40rem) {
+   .gallery .item .caption {
+     padding-top: 1rem;
+  }
+}
+ .gallery .item .caption h3 {
+   position: relative;
+   margin-bottom: 1rem;
+   font-weight: 400;
+   font-size: 1rem;
+   text-transform: uppercase;
+   letter-spacing: 1px;
+}
+ .gallery .item .caption a {
+   display: inline-block;
+   position: relative;
+   padding: 0.3rem 1rem;
+   color: inherit;
+   text-decoration: none;
+   border: 1px solid #b3b3b3;
+   border-radius: 3px;
+}
+ .gallery .item .caption .btn-buy {
+   margin-right: 1rem;
+   color: #d4af37;
+   border: 1px solid #d4af37;
+   letter-spacing: 1px;
+}
+ 
+

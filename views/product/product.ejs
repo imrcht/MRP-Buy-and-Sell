@@ -5,21 +5,23 @@
 		<link rel="stylesheet" type="text/css" href="/css/productstyle.css" />
 	</head>
 	<body>
-		<div class="card">
-			<% products.forEach(product => { %>
-			<img
-				src="/images/<%=product.imagePath%>"
-				alt="car"
-				style="width: 30%"
-				height="30%"
-			/>
-			<h1>Title : <%= product.title %></h1>
-			<p class="price">Cost : <%= product.cost %></p>
-			<p>Category : <%= product.category %></p>
-			<p>Description : <%= product.description %></p>
-
-			<% }) %>
+		<div class="row">
+			<%- include('../partials/header2.ejs') %>
 		</div>
-		<hr />
+		 
+		<div class="gallery">
+			<% products.forEach(product => { %>
+			<figure class="item">
+			  <div class="img-wrap"><img src="/images/<%=product.imagePath%>" alt="" /></div>
+			  <figcaption class="caption">
+				<h1>Title : <%= product.title %></h1>
+				<p class="price">Cost : <%= product.cost %></p>
+				<p>Category : <%= product.category %></p>
+				<p>Description : <%= product.description %></p>
+				  <a class="btn-buy" href="#">contact seller</a>
+			  </figcaption>
+			</figure>
+			<% }) %>
+		  </div>
 	</body>
 </html>
