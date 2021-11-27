@@ -23,7 +23,12 @@
 					<p>Category : <%= product.category %></p>
 					<p>Description : <%= product.description %></p>
 					<% if(name){ %>
-					<a class="btn-buy" href="#">contact seller</a>
+					<form
+						action="/products/sendcontact/<%= product.seller._id %>"
+						method="post"
+					>
+						<button><a class="btn-buy">Contact seller</a></button>
+					</form>
 					<% } else { %>
 					<a class="btn-buy" href="/users/login">contact seller</a>
 					<% } %>

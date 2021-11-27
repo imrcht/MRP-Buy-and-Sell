@@ -47,4 +47,6 @@ router.post(
 	productController.deleteProduct,
 );
 
+router.post("/sendcontact/:no", protect, productController.sendMessageToSeller);
+
 module.exports = router;
