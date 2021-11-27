@@ -3,6 +3,10 @@
 	<head>
 		<title>Product</title>
 		<link rel="stylesheet" type="text/css" href="/css/productstyle.css" />
+		<link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    /> 
 	</head>
 	<body>
 		<% if(name) { %>
@@ -15,7 +19,7 @@
 			<% products.forEach(product => { %>
 			<figure class="item">
 				<div class="img-wrap">
-					<img src="/images/<%=product.imagePath%>" alt="" />
+					<img src="/images/<%=product.imagePath%>" />
 				</div>
 				<figcaption class="caption">
 					<h1>Title : <%= product.title %></h1>
