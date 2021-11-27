@@ -55,12 +55,11 @@ exports.authorize = (...roles) => {
 exports.authenticate = asyncHandler(async (req, res, next) => {
 	let token;
 	token = req.cookies.token;
-	if (token) {
+	if (token && token != "none") {
 		// Verify token
 		const decoded = jwt.verify(token, secret.jwt_secret_key);
 
 		req.user = await User.findById(decoded.id);
 	}
-
 	next();
 });
