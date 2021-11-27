@@ -3,6 +3,7 @@ const errorResponse = require("../middleware/error");
 const asyncHandler = require("../middleware/async");
 const fileDeleteHandler = require("../utils/removeImage");
 const User = require("../models/User");
+const sendSms = require("../utils/sendSms");
 
 // @desc 	get product form
 // @route   GET products/listproduct
@@ -189,4 +190,14 @@ exports.deleteProduct = asyncHandler(async (req, res, next) => {
 			statuscode: 401,
 		});
 	}
+});
+
+exports.sendMessageToSeller = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.params.no);
+	const smsoptions = {
+		message: `${req.user.name} has shown interest in the product you listed on MRP. Contact buyer to proceed further. His contact number is ${req.user.phone}`,
+		number: user.phone,
+	};
+	const smsResult = sendSms(smsoptions);
+	res.redirect("/products/allproducts");
 });
