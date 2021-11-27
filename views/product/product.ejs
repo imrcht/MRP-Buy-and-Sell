@@ -5,23 +5,31 @@
 		<link rel="stylesheet" type="text/css" href="/css/productstyle.css" />
 	</head>
 	<body>
-		<div class="row">
-			<%- include('../partials/header2.ejs') %>
-		</div>
-		 
+		<% if(name) { %>
+		<div class="row"><%- include('../partials/header2.ejs') %></div>
+		<% }else { %>
+		<div class="row"><%- include('../partials/header.ejs') %></div>
+		<% } %>
+
 		<div class="gallery">
 			<% products.forEach(product => { %>
 			<figure class="item">
-			  <div class="img-wrap"><img src="/images/<%=product.imagePath%>" alt="" /></div>
-			  <figcaption class="caption">
-				<h1>Title : <%= product.title %></h1>
-				<p class="price">Cost : <%= product.cost %></p>
-				<p>Category : <%= product.category %></p>
-				<p>Description : <%= product.description %></p>
-				  <a class="btn-buy" href="#">contact seller</a>
-			  </figcaption>
+				<div class="img-wrap">
+					<img src="/images/<%=product.imagePath%>" alt="" />
+				</div>
+				<figcaption class="caption">
+					<h1>Title : <%= product.title %></h1>
+					<p class="price">Cost : <%= product.cost %></p>
+					<p>Category : <%= product.category %></p>
+					<p>Description : <%= product.description %></p>
+					<% if(name){ %>
+					<a class="btn-buy" href="#">contact seller</a>
+					<% } else { %>
+					<a class="btn-buy" href="/users/login">contact seller</a>
+					<% } %>
+				</figcaption>
 			</figure>
 			<% }) %>
-		  </div>
+		</div>
 	</body>
 </html>

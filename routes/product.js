@@ -1,19 +1,28 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/product");
-const { protect, authorize } = require("../middleware/auth");
+const { protect, authorize, authenticate } = require("../middleware/auth");
 const Product = require("../models/Product");
 const advanceResults = require("../middleware/advanceResults");
 
 // public routes
 router.get(
 	"/allproducts",
+	authenticate,
 	advanceResults(Product),
 	productController.getAllProducts,
 );
-router.get("/productsByCategory", productController.getProductsByCategory);
+router.get(
+	"/productsByCategory",
+	authenticate,
+	productController.getProductsByCategory,
+);
 
-router.get("/singleProduct/:productId", productController.getProductById);
+router.get(
+	"/singleProduct/:productId",
+	authenticate,
+	productController.getProductById,
+);
 
 // private routes
 router.get("/listproduct", protect, productController.getProductForm);
