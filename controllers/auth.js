@@ -1,23 +1,239 @@
 const User = require("../models/User");
+const Product = require("../models/Product");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const errorResponse = require("../middleware/error");
 const asyncHandler = require("../middleware/async");
 const secret = require("../security");
+const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
+const sendSms = require("../utils/sendSms");
+const sendEmailOtp = require("../utils/sendEmailOtp");
+
+let registerdata;
+var otp = {
+	emailotp: "",
+	smsotp: "",
+};
 
 // @desc 	Get login page
 // @route 	GET users/login
 // @access	public
 exports.getLogin = (req, res, next) => {
-	res.render("auth/login");
+	res.render("auth/login", {
+		err: "",
+		username: "",
+		password: "",
+	});
 };
 
 // @desc 	Get register page
 // @route 	GET users/register
 // @access	public
 exports.getRegister = (req, res, next) => {
-	res.render("auth/register");
+	res.render("auth/register", {
+		err: "",
+		name: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+		city: "",
+		address: "",
+		phone: "",
+		zipcode: "",
+	});
 };
+
+// @desc 	Get ForgotPassword page
+// @route 	GET users/forgotpassword
+// @access	public
+exports.getForgotPassword = (req, res, next) => {
+	res.render("auth/forgot", {
+		msg: "You can reset your password here.",
+	});
+};
+
+// @desc 	Get resetpassword page
+// @route 	GET users/resetpassword/:resetToken
+// @access	public
+exports.getResetPassword = async (req, res, next) => {
+	const resetPasswordToken = crypto
+		.createHash("sha1")
+		.update(req.params.resetToken)
+		.digest("hex");
+
+	const user = await User.findOne({
+		resetPasswordToken,
+		resetPasswordExpire: {
+			$gt: Date.now(),
+		},
+	});
+
+	if (!user) {
+		return res.status(400).render("error", {
+			msg: "Invalid/ Expird Token",
+			statuscode: 400,
+		});
+	}
+	res.render("auth/reset");
+};
+
+// @desc Get update password page
+// @route Get users/updatePassword
+// @access	Protected
+exports.getUpdateMyPassword = asyncHandler(async (req, res, next) => {
+	const userId = req.user.id;
+
+	const user = await User.findById(userId);
+
+	if (!user) {
+		res.status(500).render("error", {
+			msg: `user cannot be found`,
+			statuscode: 404,
+		});
+	}
+	res.render("auth/updatePassword", {
+		userId: userId,
+		error: "",
+	});
+});
+
+// @desc 	Update User Password
+// @route 	POST users/updatemypassword
+// @access	Private to User itself
+exports.updateMyPassword = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.user.id);
+
+	if (req.body.newPassword != req.body.confirmNewPassword) {
+		return res.render("auth/updatePassword", {
+			error: "Confirm Password is not matched",
+		});
+	}
+
+	const isMatch = await bcrypt.compare(
+		req.body.currentpassword,
+		req.user.password,
+	);
+	if (!isMatch) {
+		return res.render("auth/updatePassword", {
+			error: "Current password is incorrect",
+		});
+	}
+	const hashedPw = await bcrypt.hash(req.body.newPassword, 10);
+	user.password = hashedPw;
+	await user.save({ validateBeforeSave: false });
+
+	res.redirect("/users/me");
+});
+
+// @desc 	Get User Products Page
+// @route 	GET users//myproducts/:userId
+// @access	Protected
+exports.getMyProducts = asyncHandler(async (req, res, next) => {
+	const userId = req.params.userId;
+	const user = await User.findById(userId).populate("listedProducts");
+
+	if (!user) {
+		res.status(500).render("error", {
+			msg: `user cannot be found`,
+			statuscode: 500,
+		});
+	}
+
+	const userListedProducts = user.listedProducts;
+
+	res.json({ products: userListedProducts });
+});
+
+// @desc 	Register a user
+// @route 	POST users/register
+// @access	Public
+exports.postRegister = asyncHandler(async (req, res, next) => {
+	if (req.body.password !== req.body.confirmPassword) {
+		return res.render("auth/register", {
+			err: `Password Doesn't match`,
+			name: req.body.name,
+			email: req.body.email,
+			password: "",
+			confirmPassword: "",
+			city: req.body.city,
+			address: req.body.address,
+			phone: req.body.phone,
+			zipcode: req.body.zipcode,
+		});
+	}
+
+	registerdata = req.body;
+	registerdata.hashedPw = await bcrypt.hash(req.body.password, 10);
+
+	// emailotp
+	otp.emailotp = Math.round(Math.random() * 1000000);
+
+	// smsotp
+	otp.smsotp = Math.round(Math.random() * 1000000);
+
+	// options for sms
+	const smsoptions = {
+		message: `This is your otp for registering in MRP Sale - ${otp.smsotp}`,
+		number: req.body.phone,
+	};
+	const smsResult = sendSms(smsoptions);
+
+	// options for email
+	const emailoptions = {
+		otp: otp.emailotp,
+		email: req.body.email,
+		subject: "Reset Password URL",
+	};
+	const emailResult = sendEmailOtp(emailoptions);
+
+	res.render("auth/otp", {
+		err: "",
+		smsotp: "",
+		emailotp: "",
+	});
+});
+
+// exports.getotp = asyncHandler(async (req, res, next) => {
+// 	res.render("getotp");
+// });
+
+exports.postOtp = asyncHandler(async (req, res, next) => {
+	const emailotp = req.body.emailotp;
+	const smsotp = req.body.smsotp;
+
+	// Verifying email Otp
+	if (emailotp != otp.emailotp) {
+		return res.render("auth/otp", {
+			err: "Wrong Email OTP !!",
+			smsotp,
+			emailotp: "",
+		});
+	}
+
+	// verifying sms otp
+	if (smsotp != otp.smsotp) {
+		return res.render("auth/otp", {
+			err: "Wrong Sms OTP!!",
+			smsotp: "",
+			emailotp,
+		});
+	}
+
+	const newUser = new User({
+		name: registerdata.name,
+		phone: registerdata.phone,
+		email: registerdata.email,
+		password: registerdata.hashedPw,
+		address: registerdata.address,
+		city: registerdata.city,
+		zipcode: registerdata.zipcode,
+	});
+
+	const result = await newUser.save();
+
+	res.status(201).redirect("/users/login");
+});
 
 // @desc 	login a user
 // @route 	POST users/login
@@ -26,65 +242,101 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
 	const email = req.body.email;
 	const password = req.body.password;
 
+	if (!email) {
+		return res.status(400).render("auth/login", {
+			err: "Please enter username",
+			username: "",
+			password,
+		});
+	}
+	if (!password) {
+		return res.status(400).render("auth/login", {
+			err: "Please enter password",
+			username: email,
+			password: "",
+		});
+	}
 	const user = await User.findOne({ email: email });
 
 	if (!user) {
-		return next(new errorResponse("User not found with this email", 404));
+		return res.status(404).render("auth/login", {
+			err: "User not found!!",
+			username: "",
+			password: "",
+		});
 	}
 
 	const isEqual = await bcrypt.compare(password, user.password);
 
 	if (!isEqual) {
-		return next(new errorResponse("Invalid credentials", 401));
+		return res.status(401).render("auth/login", {
+			err: "Invalid password!! Try again",
+			username: email,
+			password: "",
+		});
 	}
-
-	// const token = jwt.sign({ email: email }, "secretsecretsecret");
 
 	sendTokenResponse(user, 200, res);
 });
 
-// @desc 	Register a user
-// @route 	POST users/register
-// @access	Public
-exports.postRegister = asyncHandler(async (req, res, next) => {
-	const name = req.body.name;
-	const phone = req.body.phone;
-	const email = req.body.email;
-	const password = req.body.password;
-	const address = req.body.address;
-	const city = req.body.city;
-	const zipcode = req.body.zipcode;
+// @desc 	User details
+// @route 	GET users/me
+// @access	Private
+exports.getMe = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.user.id).populate("listedProducts");
 
-	const hashedPw = await bcrypt.hash(password, 10);
-	const newUser = new User({
-		name: name,
-		phone: phone,
-		email: email,
-		password: hashedPw,
-		address: address,
-		city: city,
-		zipcode: zipcode,
+	res.render("auth/profile", {
+		user: user,
 	});
-
-	const result = await newUser.save();
-
-	res.status(201).redirect("/users/login");
 });
 
-// @desc 	Get single user
-// @route 	GET users/:id
-// @access	Private to Admin
-exports.getUser = asyncHandler(async (req, res, next) => {
-	const user = await User.findById(req.params.id);
+// @desc Update User Profile
+// @route POST users/updateme
+// @access Private
+exports.updateMe = asyncHandler(async (req, res, next) => {
+	const updatedName = req.body.name;
+	const updatedAddress = req.body.address;
+	const updatedCity = req.body.city;
+	const updatedState = req.body.state;
+	const updatedCountry = req.body.country;
+	const updatedZipcode = req.body.zipcode;
 
-	if (!user) {
-		return next(
-			new errorResponse(`User with ${req.params.id} not found`, 404),
-		);
+	const user = await User.findOne({ email: req.user.email }).populate(
+		"listedProducts",
+	);
+
+	// if (!user) {
+	// 	res.status(401).render("error", {
+	// 		msg: "you cannot update yourself",
+	// 		statuscode: 401,
+	// 	});
+	// }
+
+	if (updatedName) {
+		user.name = updatedName;
+	}
+	if (updatedCity) {
+		user.city = updatedCity;
+		user.location.city = updatedCity;
+	}
+	if (updatedZipcode) {
+		user.zipcode = updatedZipcode;
+		user.location.zipode = updatedZipcode;
+	}
+	if (updatedAddress) {
+		user.location.formattedAddress = updatedAddress;
+		user.address = updatedAddress;
+	}
+	if (updatedState) {
+		user.location.state = updatedState;
+	}
+	if (updatedCountry) {
+		user.location.country = updatedCountry;
 	}
 
-	res.status(200).json({
-		success: true,
+	await user.save({ validateBeforeSave: false });
+
+	res.status(200).render("auth/profile", {
 		user,
 	});
 });
@@ -97,85 +349,81 @@ exports.logout = asyncHandler(async (req, res, next) => {
 		expires: new Date(Date.now() + 10 * 1000),
 	});
 
-	res.status(200).json({
-		success: true,
-		message: "User logged out",
-	});
+	res.redirect("/");
 });
 
-// @desc 	Create User
-// @route 	POST users/user
-// @access	Private to Admin
-exports.createUser = asyncHandler(async (req, res, next) => {
-	const { name, email, phone, password, role } = req.body;
+// @desc 	Generate Forgot Password token
+// @route 	POST users/forgotpassword
+// @access	Public
+exports.postForgotPassword = asyncHandler(async (req, res, next) => {
+	const user = await User.findOne({ email: req.body.email });
+	if (!user) {
+		return res.status(404).render("auth/forgot", {
+			msg: `No user found with email ${req.body.email} !! Try again`,
+		});
+	}
 
-	// Create User in database
-	const user = await User.create({
-		name,
-		email,
-		phone,
-		password,
-		role,
-	});
+	const resetPasswordToken = user.getResetPasswordToken();
 
-	res.status(201).json({
-		success: true,
-		message: `${user.role} of name ${user.name} created successfully`,
-	});
+	await user.save({ validateBeforeSave: false });
+
+	resetUrl = `${req.protocol}://${req.get(
+		"host",
+	)}/users/resetpassword/${resetPasswordToken}`;
+	const options = {
+		resetUrl: resetUrl,
+		email: user.email,
+		subject: "Reset Password URL",
+	};
+
+	try {
+		sendEmail(options);
+		res.status(201).render("success", {
+			email: user.email,
+		});
+	} catch (err) {
+		user.resetPasswordToken = undefined;
+		user.resetPasswordExpire = undefined;
+
+		await user.save({ validateBeforeSave: false });
+		console.log(err);
+		res.status(500).render("error", {
+			msg: `Email could not be sent`,
+			statuscode: 500,
+		});
+	}
 });
 
-// @desc 	User details
-// @route 	GET users/me
-// @access	Private
-exports.getMe = asyncHandler(async (req, res, next) => {
-	const user = await User.findById(req.user.id);
+// @desc 	Reset Password link
+// @route 	PUT users/resetpassword/:resetToken
+// @access	Public
+exports.postResetPassword = asyncHandler(async (req, res, next) => {
+	const resetPasswordToken = crypto
+		.createHash("sha1")
+		.update(req.params.resetToken)
+		.digest("hex");
 
-	res.status(200).json({
-		success: true,
-		user,
+	const user = await User.findOne({
+		resetPasswordToken,
+		resetPasswordExpire: {
+			$gt: Date.now(),
+		},
 	});
-});
-
-// @desc 	Get all User
-// @route 	GET users/allusers
-// @access	Private to Admin
-exports.getUsers = asyncHandler(async (req, res, next) => {
-	res.status(200).json(res.advanceResult);
-});
-
-// @desc 	Update user details
-// @route 	PUT users/:id
-// @access	Private to Admin
-exports.update = asyncHandler(async (req, res, next) => {
-	let user = await User.findById(req.params.id);
 
 	if (!user) {
-		return next(
-			new errorResponse(`User with id ${req.params.id} not found`, 404),
-		);
+		return res.status(400).render("error", {
+			msg: "Invalid/ Expird Token",
+			statuscode: 400,
+		});
 	}
 
-	if (req.user.role !== "admin") {
-		if (req.user.id !== req.params.id) {
-			return next(
-				new errorResponse(
-					`${req.user.name} is not allowed to update another user`,
-					401,
-				),
-			);
-		}
-	}
+	const hashedPw = await bcrypt.hash(req.body.password, 10);
+	user.password = hashedPw;
+	user.resetPasswordToken = undefined;
+	user.resetPasswordExpire = undefined;
+	user.save();
 
-	// Update User
-	user = await User.findByIdAndUpdate(req.params.id, req.body, {
-		runValidators: true,
-		new: true,
-	});
-
-	res.status(200).json({
-		success: true,
-		data: user,
-	});
+	res.status(200).redirect("/users/login");
 });
 
 // create and send cookie and token

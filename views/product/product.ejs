@@ -1,20 +1,25 @@
-<!Doctype HTML>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Product</title>
-        <link rel="stylesheet" type="text/css" href="/css/productstyle.css"/>
+	<head>
+		<title>Product</title>
+		<link rel="stylesheet" type="text/css" href="/css/productstyle.css" />
+	</head>
+	<body>
+		<div class="card">
+			<% products.forEach(product => { %>
+			<img
+				src="/images/<%=product.imagePath%>"
+				alt="car"
+				style="width: 30%"
+				height="30%"
+			/>
+			<h1>Title : <%= product.title %></h1>
+			<p class="price">Cost : <%= product.cost %></p>
+			<p>Category : <%= product.category %></p>
+			<p>Description : <%= product.description %></p>
 
-    </head>
-    <body>
-        <div class="card">
-            <img src="img/p11.jpeg" alt="car" style="width:100%">
-            <h1>Scorpio</h1>
-            <p class="price">Rs: 5,00,000/-</p>
-            <p>MODEL: S7 2WD 7str</p>
-            <p>MODEL YEAR: 2019</p>
-            <p>NO OF OWNER: 1</p>
-            <p>NOTE: Price Negotiable</p>
-            <p><button>CONTACT SELLER</button></p>
-          </div>
-    </body>
+			<% }) %>
+		</div>
+		<hr />
+	</body>
 </html>

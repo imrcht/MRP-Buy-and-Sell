@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
 const geocoder = require("../utils/geocoder");
+const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema({
 	name: {
@@ -70,6 +71,10 @@ const UserSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now,
 	},
+	listedProducts: {
+		type: [mongoose.Schema.ObjectId],
+		ref: "Product",
+	},
 	soldProducts: {
 		type: [mongoose.Schema.ObjectId],
 		ref: "Product",
@@ -92,16 +97,38 @@ UserSchema.pre("save", async function (next) {
 	this.location = {
 		type: "Point",
 		coordinates: [loc[0].longitude, loc[0].latitude],
-		formattedAddress: loc[0].formattedAddress,
+		formattedAddress: this.address,
 		city: this.city,
 		state: loc[0].stateCode,
 		street: loc[0].streetName,
 		zipcode: this.zipcode,
 		country: loc[0].countryCode,
 	};
-	//Do not save address
-	this.address = undefined;
+	// this.address = undefined;
 	next();
 });
+
+// middleware to delete products realted to this user
+UserSchema.pre("remove", async function (next) {
+	await this.model("Product").deleteMany({ seller: this._id });
+	next();
+});
+
+// return resetPassword token
+UserSchema.methods.getResetPasswordToken = function () {
+	// generate token
+	let resetToken = crypto.randomBytes(20);
+	// console.log("buffer of resetpwdtoken", resetToken);
+	resetToken = resetToken.toString("hex");
+
+	this.resetPasswordToken = crypto
+		.createHash("sha1")
+		.update(resetToken)
+		.digest("hex");
+	console.log(this.resetPasswordToken);
+	this.resetPasswordExpire = Date.now() * 60 * 60;
+
+	return resetToken;
+};
 
 module.exports = mongoose.model("User", UserSchema);

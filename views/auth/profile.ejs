@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PROFILE</title>
+	<link rel="stylesheet" type="text/css" href="/css/pstyle.css" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+</head>
+<body>
+  
+	<div class="main-content">
+
+    <!-- Top navbar -->
+    <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+      <div class="container-fluid">
+        <!-- Brand -->
+        <a href="/" class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" >
+          <img
+						src="/img/logo1.jpeg"
+						style="
+							width: 200px;
+							height: 60px;
+							margin-top: 0px;
+							float: left;
+							margin-left: 0.5rem;
+						"
+					/>
+        </a>
+
+
+        <!-- <a href="/users/myproducts/<%=user._id%>" class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" style="cursor: pointer;" >My Product</a> -->
+      
+        <!-- User -->
+        <div class="media align-items-center">
+          <span class="avatar avatar-sm rounded-circle"></span>
+  
+          <div class="media-body ml-2 d-none d-lg-block">
+            <span class="mb-0 text-sm  font-weight-bold"><%= user.name %></span>
+            <div>
+              <a href="/users/logout"><span class="mb-0 text-sm  font-weight-bold">Log Out</span></a>
+              <br>
+              <a href="/"><span class="mb-0 text-sm  font-weight-bold">Home</span></a>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </nav>
+    
+      <!-- Mask -->
+      <span class="mask bg-gradient-default opacity-8"></span>
+      <!-- Header container -->
+      <div class="container-fluid d-flex align-items-center">
+        <div class="row">
+          <div class="col-lg-7 col-md-10">
+            <h1 class="display-2 text-white">Welcome, <%= user.name %></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--7 doCenter">
+      <div class="row">
+        <div class="col-xl-8 order-xl-1">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0">My account</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <form action="/users/updateme" method="POST">
+                <h6 class="heading-small text-muted mb-4">User information</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">Name</label>
+                        <input name="name" type="text" id="input-username" class="form-control form-control-alternative" placeholder="name" value="<%= user.name %>">
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-email">Email address</label>
+                        <input disabled name="email" type="email" id="input-email" class="form-control form-control-alternative" value="<%=user.email%>">
+                        <input name="oldEmail" type="hidden" value="<%=user.email%>">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-first-name">Password</label>
+                        <!-- button for PASSWORD UPDATION -->
+                        <a href="/users/updatemypassword" class="form-control form-control-alternative" >Update Password</a>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-last-name">Phone Number</label>
+                        <input disabled name="phone" type="number" id="input-last-name" class="form-control form-control-alternative" placeholder="phone number" value="<%= user.phone %>">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4">
+                <!-- Address -->
+                <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-address">Address</label>
+                        <input name="address" id="input-address" class="form-control form-control-alternative" placeholder="home address" value="<%= user.location.formattedAddress %>" type="text">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-city">City</label>
+                        <input name="city" type="text" id="input-city" class="form-control form-control-alternative" placeholder="city" value="<%= user.location.city %>">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-city">State</label>
+                        <input name="state" type="text" id="input-city" class="form-control form-control-alternative" placeholder="state" value="<%= user.location.state %>">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-country">Country</label>
+                        <input name="country" type="text" id="input-country" class="form-control form-control-alternative" placeholder="country" value="<%= user.location.country %>">
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="form-group">
+                        <label class="form-control-label" for="input-country">Postal code</label>
+                        <input name="zipcode" type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="pin code" value="<%= user.location.zipcode %>">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4">
+
+                <hr class="my-4">
+
+                <!-- PRODUCT INFORMATION SECTION -->
+                <h6 class="heading-small text-muted mb-4">Listed Product information</h6>
+
+                <div class="listedProducts">
+                  <% user.listedProducts.forEach(product => { %>
+                     <a href="/products/singleProduct/<%=product._id%>"># <%= product.title %></a>
+                  <% }) %>
+                </div>
+
+                <hr class="my-4">
+
+                <button type="submit" class="btn submit-btn">Update User</button>
+                
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
