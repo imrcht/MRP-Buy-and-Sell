@@ -1,201 +1,190 @@
 <div class="header">
-	<!--Content before waves-->
-	<div class="nav">
-		<!-- <input type="checkbox" id="nav-check" /> -->
-		<div class="nav-header">
-			<div class="nav-title">
-				<a href="/" class="button">
-					<img
-						src="img/logo1.jpeg"
-						style="
-							width: 200px;
-							height: 60px;
-							margin-top: 0px;
-							float: left;
-							margin-left: 2rem;
-						"
-					/>
-				</a>
-			</div>
-		</div>
+  <!--Content before waves-->
+  <div class="nav">
+    <!-- <input type="checkbox" id="nav-check" /> -->
+    <div class="nav-header">
+      <div class="nav-title">
+        <a href="/" class="button">
+          <img
+            src="img/logo1.jpeg"
+            style="
+              width: 200px;
+              height: 60px;
+              margin-top: 0px;
+              float: left;
+              margin-left: 2rem;
+            "
+          />
+        </a>
+      </div>
+    </div>
 
-		<div class="nav-links">
-			<% if(name) { %>
-			<!-- <a href="/products/listproduct" class="link"
+    <div class="nav-links">
+      <% if(name) { %>
+      <!-- <a href="/products/listproduct" class="link"
         ><i class="fa fa-fw fa-search"></i>ADD PRODUCT</a
       > -->
-			<a href="/users/me" class="link"
-				><i class="fa fa-fw fa-user"></i>MY ACCOUNT</a
-			>
-			<a href="/products/listproduct" class="button"
-				><i class="fa fa-fw fa-plus"></i>SELL</a
-			>
-			<a href="/users/logout" class="button"
-				><i class="fa fa-fw fa-unlock"></i>LOGOUT</a
-			>
+      <a href="/users/me" class="link"
+        ><i class="fa fa-fw fa-user"></i>MY ACCOUNT</a
+      >
+      <a href="/products/listproduct" class="button"
+        ><i class="fa fa-fw fa-plus"></i>SELL</a
+      >
+      <a href="/users/logout" class="button"
+        ><i class="fa fa-fw fa-unlock"></i>LOGOUT</a
+      >
 
-			<% } else { %>
-			<a href="/users/login" class="button"
-				><i class="fa fa-fw fa-lock"></i>LOGIN</a
-			>
-			<a href="/users/register" class="button"
-				><i class="fa fa-fw fa-user"></i>REGISTER</a
-			>
-			<% } %>
-		</div>
-	</div>
-	<div class="inner-header flex">
-		<svg
-			version="1.1"
-			class="logo"
-			baseProfile="tiny"
-			id="Layer_1"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-			x="0px"
-			y="0px"
-			viewBox="0 0 500 500"
-			xml:space="preserve"
-		>
-			<path
-				fill="#FFFFFF"
-				stroke="#000000"
-				stroke-width="10"
-				stroke-miterlimit="10"
-				d="M57,283"
-			/>
-			<g>
-				<path
-					fill="#fff"
-					d="M250.4,0.8C112.7,0.8,1,112.4,1,250.2c0,137.7,111.7,249.4,249.4,249.4c137.7,0,249.4-111.7,249.4-249.4
+      <% } else { %>
+      <a href="/users/login" class="button"
+        ><i class="fa fa-fw fa-lock"></i>LOGIN</a
+      >
+      <a href="/users/register" class="button"
+        ><i class="fa fa-fw fa-user"></i>REGISTER</a
+      >
+      <% } %>
+    </div>
+  </div>
+  <div class="inner-header flex">
+    <svg
+      version="1.1"
+      class="logo"
+      baseProfile="tiny"
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      x="0px"
+      y="0px"
+      viewBox="0 0 500 500"
+      xml:space="preserve"
+    >
+      <path
+        fill="#FFFFFF"
+        stroke="#000000"
+        stroke-width="10"
+        stroke-miterlimit="10"
+        d="M57,283"
+      />
+      <g>
+        <path
+          fill="#fff"
+          d="M250.4,0.8C112.7,0.8,1,112.4,1,250.2c0,137.7,111.7,249.4,249.4,249.4c137.7,0,249.4-111.7,249.4-249.4
 	C499.8,112.4,388.1,0.8,250.4,0.8z M383.8,326.3c-62,0-101.4-14.1-117.6-46.3c-17.1-34.1-2.3-75.4,13.2-104.1
 	c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3,62.4c-19.8,19.1-51.6,26.9-100.2,24.6l1.8-39.7		c35.9,1.6,59.7-2.9,70.8-13.6c8.9-8.6,11.1-22.9,13.5-39.6c6.3-42,14.8-99.4,141.4-99.4h41L333,166c-12.6,16-45.4,68.2-31.2,96.2	c9.2,18.3,41.5,25.6,91.2,24.2l1.1,39.8C390.5,326.2,387.1,326.3,383.8,326.3z"
-				/>
-			</g>
-		</svg>
-		<div class="row1">
-			<div class="dropdown">
-				<a class="dropbtn"
-					>All Categories<i class="fa fa-fw fa-arrow-down"></i
-				></a>
-				<div class="dropdown-content">
-					<a href="/products/productsByCategory?category=Mobile"
-						>Mobile</a
-					>
-					<a href="/products/productsByCategory?category=Cars"
-						>Cars</a
-					>
-					<a href="/products/productsByCategory?category=Bike"
-						>Bikes</a
-					>
-					<a href="/products/productsByCategory?category=Furniture"
-						>Furniture</a
-					>
-					<a href="/products/productsByCategory?category=Appliance"
-						>Electronic and Appliance</a
-					>
-					<a href="/products/productsByCategory?category=Books"
-						>Books</a
-					>
-					<a href="/products/productsByCategory?category=Sports"
-						>Sports and Accessories</a
-					>
-				</div>
-			</div>
-			<a href="/products/productsByCategory?category=Mobile" class="cat"
-				><i class="fa fa-fw fa-mobile"></i>Mobile</a
-			>
-			<a href="/products/productsByCategory?category=Cars" class="cat"
-				><i class="fa fa-fw fa-car"></i>Cars</a
-			>
-			<a href="/products/productsByCategory?category=Bike" class="cat"
-				><i class="fa fa-fw fa-motorcycle"></i>Bikes</a
-			>
-			<a
-				href="/products/productsByCategory?category=Furniture"
-				class="cat"
-				><i class="fa fa-fw fa-bed"></i>Furniture</a
-			>
-			<a
-				href="/products/productsByCategory?category=Appliance"
-				class="cat"
-				><i class="fa fa-fw fa-laptop"></i>Electronic And Appliances</a
-			>
-			<a href="/products/productsByCategory?category=Books" class="cat"
-				><i class="fa fa-fw fa-book"></i>Books</a
-			>
-			<a href="/products/productsByCategory?category=Sports" class="cat"
-				><i class="fa fa-fw fa-book"></i>Sports</a
-			>
-		</div>
-		<div class="row2">
-			<div class="col21">
-				<a href="/products/allproducts">
-					<button class="click" type="submit">
-						<i class="fa fa-fw fa-shopping-cart"></i>BUY
-					</button>
-				</a>
-			</div>
-			<% if(name) { %>
-			<div class="col22">
-				<a href="/products/listproduct">
-					<button class="click" type="submit">
-						<i class="fa fa-fw fa-plus"></i>SELL
-					</button>
-				</a>
-			</div>
-			<% } else { %>
-			<div class="col22">
-				<a href="/users/login">
-					<button class="click" type="submit">
-						<i class="fa fa-fw fa-plus"></i>SELL
-					</button>
-				</a>
-			</div>
-			<% } %>
-		</div>
-		<div class="quote"><h1>It doesn't have to be new to be AWESOME!!</h1></div>
-	</div>
-	
-	<!--Waves Container-->
-	<div>
-		<svg
-			class="waves"
-			xmlns="http://www.w3.org/2000/svg"
-			xmlns:xlink="http://www.w3.org/1999/xlink"
-			viewBox="0 24 150 28"
-			preserveAspectRatio="none"
-			shape-rendering="auto"
-		>
-			<defs>
-				<path
-					id="gentle-wave"
-					d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-				/>
-			</defs>
-			<g class="parallax">
-				<use
-					xlink:href="#gentle-wave"
-					x="48"
-					y="0"
-					fill="rgba(255,255,255,0.7"
-				/>
-				<use
-					xlink:href="#gentle-wave"
-					x="48"
-					y="3"
-					fill="rgba(255,255,255,0.5)"
-				/>
-				<use
-					xlink:href="#gentle-wave"
-					x="48"
-					y="5"
-					fill="rgba(255,255,255,0.3)"
-				/>
-				<use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
-			</g>
-		</svg>
-	</div>
-	<!--Waves end-->
+        />
+      </g>
+    </svg>
+    <div class="row1">
+      <div class="dropdown">
+        <a class="dropbtn"
+          >All Categories<i class="fa fa-fw fa-arrow-down"></i
+        ></a>
+        <div class="dropdown-content">
+          <a href="/products/productsByCategory?category=Mobile">Mobile</a>
+          <a href="/products/productsByCategory?category=Cars">Cars</a>
+          <a href="/products/productsByCategory?category=Bike">Bikes</a>
+          <a href="/products/productsByCategory?category=Furniture"
+            >Furniture</a
+          >
+          <a href="/products/productsByCategory?category=Appliance"
+            >Electronic and Appliance</a
+          >
+          <a href="/products/productsByCategory?category=Books">Books</a>
+          <a href="/products/productsByCategory?category=Sports"
+            >Sports and Accessories</a
+          >
+        </div>
+      </div>
+      <a href="/products/allproducts" class="cat">All Products</a>
+      <a href="/products/productsByCategory?category=Mobile" class="cat"
+        ><i class="fa fa-fw fa-mobile"></i>Mobile</a
+      >
+      <a href="/products/productsByCategory?category=Cars" class="cat"
+        ><i class="fa fa-fw fa-car"></i>Cars</a
+      >
+      <a href="/products/productsByCategory?category=Bike" class="cat"
+        ><i class="fa fa-fw fa-motorcycle"></i>Bikes</a
+      >
+      <a href="/products/productsByCategory?category=Furniture" class="cat"
+        ><i class="fa fa-fw fa-bed"></i>Furniture</a
+      >
+      <a href="/products/productsByCategory?category=Appliance" class="cat"
+        ><i class="fa fa-fw fa-laptop"></i>Electronic And Appliances</a
+      >
+      <a href="/products/productsByCategory?category=Books" class="cat"
+        ><i class="fa fa-fw fa-book"></i>Books</a
+      >
+      <a href="/products/productsByCategory?category=Sports" class="cat"
+        ><i class="fa fa-fw fa-book"></i>Sports</a
+      >
+    </div>
+    <div class="row2">
+      <div class="col21">
+        <a href="/products/allproducts">
+          <button class="click" type="submit">
+            <i class="fa fa-fw fa-shopping-cart"></i>BUY
+          </button>
+        </a>
+      </div>
+      <% if(name) { %>
+      <div class="col22">
+        <a href="/products/listproduct">
+          <button class="click" type="submit">
+            <i class="fa fa-fw fa-plus"></i>SELL
+          </button>
+        </a>
+      </div>
+      <% } else { %>
+      <div class="col22">
+        <a href="/users/login">
+          <button class="click" type="submit">
+            <i class="fa fa-fw fa-plus"></i>SELL
+          </button>
+        </a>
+      </div>
+      <% } %>
+    </div>
+    <div class="quote"><h1>It doesn't have to be new to be AWESOME!!</h1></div>
+  </div>
+
+  <!--Waves Container-->
+  <div>
+    <svg
+      class="waves"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 24 150 28"
+      preserveAspectRatio="none"
+      shape-rendering="auto"
+    >
+      <defs>
+        <path
+          id="gentle-wave"
+          d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+        />
+      </defs>
+      <g class="parallax">
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="0"
+          fill="rgba(255,255,255,0.7"
+        />
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="3"
+          fill="rgba(255,255,255,0.5)"
+        />
+        <use
+          xlink:href="#gentle-wave"
+          x="48"
+          y="5"
+          fill="rgba(255,255,255,0.3)"
+        />
+        <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+      </g>
+    </svg>
+  </div>
+  <!--Waves end-->
 </div>
 <!--Header ends-->
