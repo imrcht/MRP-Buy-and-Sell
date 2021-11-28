@@ -90,7 +90,7 @@ const sendEmail = async (options) => {
 		attachments: [
 			{
 				filename: "logo1.jpeg",
-				path: "../public/img/logo1.jpeg",
+				path: `./public/img/logo1.jpeg`,
 				cid: `uniq-mailInline`,
 			},
 		],

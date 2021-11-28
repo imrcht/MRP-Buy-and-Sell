@@ -39,7 +39,7 @@ const sendEmail = async (options) => {
 						<tr>
 							<td style="text-align:center;">
 							  <a href="#mrp home page" title="logo" target="_blank">
-								<img  src="/img/logo1.jpeg" title="logo" alt="logo" style="height: 100px; width: 250px;">
+								<img src="uniq-mailInline" title="logo" alt="logo" style="height: 100px; width: 250px;">
 							  </a>
 							</td>
 						</tr>
@@ -83,6 +83,13 @@ const sendEmail = async (options) => {
 		</div>
 	</body>
 	`,
+		attachments: [
+			{
+				filename: "logo1.jpeg",
+				path: `./public/img/logo1.jpeg`,
+				cid: `uniq-mailInline`,
+			},
+		],
 	};
 
 	const info = await transport.sendMail(mailOptions);

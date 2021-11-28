@@ -173,11 +173,11 @@ exports.postRegister = asyncHandler(async (req, res, next) => {
 	otp.smsotp = Math.round(Math.random() * 1000000);
 
 	// options for sms
-	// const smsoptions = {
-	// 	message: `OTP for registering in MRP-Buy&Sell - ${otp.smsotp}`,
-	// 	number: req.body.phone,
-	// };
-	// const smsResult = sendSms(smsoptions);
+	const smsoptions = {
+		message: `OTP for registering in MRP-Buy&Sell - ${otp.smsotp}`,
+		number: req.body.phone,
+	};
+	const smsResult = sendSms(smsoptions);
 
 	// options for email
 	const emailoptions = {
@@ -379,7 +379,7 @@ exports.postForgotPassword = asyncHandler(async (req, res, next) => {
 	try {
 		sendEmail(options);
 		res.status(201).render("success", {
-			email: user.email,
+			msg: `Reset password link has successfully been sent to ${user.email}`,
 		});
 	} catch (err) {
 		user.resetPasswordToken = undefined;
