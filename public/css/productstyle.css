@@ -66,7 +66,7 @@
   text-align: center;
   position: relative;
   margin-top: 8px;
-  color: #FFF;
+  color:black;
   font-weight: bold;
 }
 
@@ -297,6 +297,8 @@ img{
    color: #d4af37;
    border: 1px solid #d4af37;
    letter-spacing: 1px;
+   padding: 5px 5px 5px 5px;
+   cursor: pointer;
 }
  
 
