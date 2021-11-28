@@ -112,7 +112,7 @@ span {
 
 html,
 body {
-	background-image: url("/img/login.jpeg");
+	background-image: url("../img/log.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: 100%;
