@@ -1,10 +1,20 @@
-.row01 {
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-image: url("../img/register.jpg");
+	background-position: center;
+	margin: 0;
+	font-family: "segoe ui";
+	padding-bottom: 20px;
+}
+.logo {
 	height: 100px;
 	width: 100%;
 	top: 0;
 }
 .nav {
-	
 	display: flex;
 	height: 80px;
 	width: 100%;
@@ -85,7 +95,7 @@
 }
 
 span {
-	opacity: 0;
+	margin-left: 15px;
 	color: #fff;
 	font-size: 15px;
 	font-weight: bold;
@@ -100,11 +110,6 @@ span {
 	-moz-animation: showSpan 3s ease-in-out;
 }
 
-body {
-	
-	padding-bottom: 20px;
-	margin: 0;
-}
 
 h1 {
 	text-align: center;
@@ -136,11 +141,6 @@ h1 {
 	line-height: 40px;
 }
 
-.footer {
-	padding-top: 19px;
-	color: #777;
-	border-top: 1px solid #e5e5e5;
-}
 
 @media (min-width: 768px) {
 	.container {
@@ -158,4 +158,8 @@ h1 {
 .btn {
 	padding: 14px 24px;
 	font-size: 21px;
+}
+label{
+	font-weight: 700;
+	color: white;
 }

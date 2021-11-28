@@ -15,7 +15,7 @@
 	padding: 0 20px;
 	height: 80px;
 	width: 100%;
-	background-color: whitesmoke;
+	background-color: white;
 	position: fixed;
 }
 
@@ -112,7 +112,7 @@ span {
 
 html,
 body {
-	background-image: url("../img/log.jpg");
+	background-image: url("../img/login.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: 100%;
