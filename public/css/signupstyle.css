@@ -163,3 +163,7 @@ label{
 	font-weight: 700;
 	color: white;
 }
+
+.error{
+	color: red;
+}

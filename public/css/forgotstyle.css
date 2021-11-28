@@ -83,6 +83,14 @@
 	background-color: white;
 }
 
+/* .button:hover {
+  background: -linear-gradient(right top, #699db6 0%, #54b6b5 99%, #e9e8ff 100%);
+  background: -webkit-linear-gradient(right top, #699db6 0%, #54b6b5 99%, #e9e8ff 100%);
+  background: -moz-linear-gradient(right top, #699db6 0%, #54b6b5 99%, #e9e8ff 100%);
+  -webkit-animation: showShadow 3s ease-in-out;
+  -moz-animation: showShadow 3s ease-in-out;
+} */
+
 .button:active {
 	text-shadow: 0 1px 0 #2e2;
 	-webkit-box-shadow: 0 1px #181, 1px 2px 2px rgba(0, 0, 0, 0.3);
@@ -106,7 +114,6 @@ span {
 	-webkit-animation: showSpan 3s ease-in-out;
 	-moz-animation: showSpan 3s ease-in-out;
 }
-
 .row1 {
 	height: 100px;
 	width: 100%;
