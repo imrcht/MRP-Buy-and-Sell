@@ -173,17 +173,17 @@ exports.postRegister = asyncHandler(async (req, res, next) => {
 	otp.smsotp = Math.round(Math.random() * 1000000);
 
 	// options for sms
-	const smsoptions = {
-		message: `This is your otp for registering in MRP Sale - ${otp.smsotp}`,
-		number: req.body.phone,
-	};
-	const smsResult = sendSms(smsoptions);
+	// const smsoptions = {
+	// 	message: `OTP for registering in MRP-Buy&Sell - ${otp.smsotp}`,
+	// 	number: req.body.phone,
+	// };
+	// const smsResult = sendSms(smsoptions);
 
 	// options for email
 	const emailoptions = {
 		otp: otp.emailotp,
 		email: req.body.email,
-		subject: "Reset Password URL",
+		subject: "OTP for Registering in MRP-Buy&Sell",
 	};
 	const emailResult = sendEmailOtp(emailoptions);
 

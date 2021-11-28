@@ -15,7 +15,7 @@ const sendEmail = async (options) => {
 	var mailOptions = {
 		from: `"Admin-MRP" <${secrets.from_email}>`,
 		to: options.email,
-		subject: "Password Reset",
+		subject: "Reset Password URL",
 		html: `<head>
 		<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 		<title>Reset Password Email</title>
@@ -39,7 +39,7 @@ const sendEmail = async (options) => {
 						<tr>
 							<td style="text-align:center;">
 							  <a href="#mrp home page" title="logo" target="_blank">
-								<img  src="/img/logo1.jpeg" title="logo" alt="logo" style="height: 100px; width: 250px;">
+								<img  src="cid:uniq-mailInline" title="logo" alt="logo" style="height: 100px; width: 250px;">
 							  </a>
 							</td>
 						</tr>
@@ -87,6 +87,13 @@ const sendEmail = async (options) => {
 		</div>
 	</body>
 	`,
+		attachments: [
+			{
+				filename: "logo1.jpeg",
+				path: "../public/img/logo1.jpeg",
+				cid: `uniq-mailInline`,
+			},
+		],
 	};
 
 	const info = await transport.sendMail(mailOptions);
