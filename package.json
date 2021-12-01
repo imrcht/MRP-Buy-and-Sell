@@ -10,6 +10,9 @@
 	},
 	"author": "Rachit Gupta",
 	"license": "ISC",
+	"engines": {
+		"node": "14.17.0"
+	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
 		"colors": "^1.4.0",
