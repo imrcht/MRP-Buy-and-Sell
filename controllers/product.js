@@ -4,6 +4,7 @@ const asyncHandler = require("../middleware/async");
 const fileDeleteHandler = require("../utils/removeImage");
 const User = require("../models/User");
 const sendSms = require("../utils/sendSms");
+const sendEmail = require("../utils/sendEmail");
 
 // @desc 	get product form
 // @route   GET products/listproduct
@@ -117,7 +118,24 @@ exports.postProduct = asyncHandler(async (req, res, next) => {
 		},
 	);
 
+	const allusers = User.find();
+	const maillist = [];
+	(await allusers).forEach((singleuser) => {
+		maillist.push(singleuser.email);
+	});
 	if (result) {
+		productUrl = `${req.protocol}://${req.get(
+			"host",
+		)}/products/singleProduct/${product._id}`;
+		const options = {
+			heading: "New Product Listed",
+			mainmessage: `${user.name} has listed new product named ${title}, Have a look at this`,
+			Url: productUrl,
+			buttonMessage: "Click here to view",
+			email: maillist,
+			subject: "NEW PRODUCT LISTED",
+		};
+		sendEmail(options);
 		return res.redirect("/products/allproducts");
 	}
 });

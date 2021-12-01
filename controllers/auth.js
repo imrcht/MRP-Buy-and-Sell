@@ -371,7 +371,11 @@ exports.postForgotPassword = asyncHandler(async (req, res, next) => {
 		"host",
 	)}/users/resetpassword/${resetPasswordToken}`;
 	const options = {
-		resetUrl: resetUrl,
+		heading: "You have requested to reset your password",
+		mainmessage:
+			"We cannot simply send you your old password. A unique link to reset your password has been generated for you. To reset your password, click the following link.",
+		Url: resetUrl,
+		buttonMessage: "Reset Password",
 		email: user.email,
 		subject: "Reset Password URL",
 	};
