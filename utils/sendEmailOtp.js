@@ -4,16 +4,16 @@ const secrets = require("../security");
 
 const sendEmail = async (options) => {
 	// create transport
-	var transport = nodemailer.createTransport(
-		sendgridTransport({
-			auth: {
-				api_key: secrets.sendgrid,
-			},
-		}),
-	);
+	var transport = nodemailer.createTransport({
+		service: "gmail",
+		auth: {
+			user: secrets.email,
+			pass: secrets.gmailpassword,
+		},
+	});
 
 	var mailOptions = {
-		from: `"Admin-MRP" <${secrets.from_email}>`,
+		from: `"Admin-MRP" <${secrets.email}>`,
 		to: options.email,
 		subject: "OTP for Registering in MRP-Buy&Sell",
 		html: `<head>
@@ -39,7 +39,7 @@ const sendEmail = async (options) => {
 						<tr>
 							<td style="text-align:center;">
 							  <a href="#mrp home page" title="logo" target="_blank">
-								<img src="uniq-mailInline" title="logo" alt="logo" style="height: 100px; width: 250px;">
+								<img src="cid:uniq-mailInline" title="logo" alt="logo" style="height: 100px; width: 250px;">
 							  </a>
 							</td>
 						</tr>
@@ -93,7 +93,7 @@ const sendEmail = async (options) => {
 	};
 
 	const info = await transport.sendMail(mailOptions);
-	console.log(`Message sent: ${info.message}`);
+	console.log(`Message sent: ${info.response}`);
 };
 
 module.exports = sendEmail;
