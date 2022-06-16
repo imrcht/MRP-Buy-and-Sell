@@ -2,7 +2,8 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("./async");
 const errorResponse = require("../utils/errorResponse");
-const secret = require("../security");
+// const secret = require("../security");
+require('dotenv').config();
 
 exports.protect = asyncHandler(async (req, res, next) => {
 	let token;
@@ -20,7 +21,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
 	try {
 		// Verify token
-		const decoded = jwt.verify(token, secret.jwt_secret_key);
+		const decoded = jwt.verify(token, process.env.jwt_secret_key);
 
 		console.log(decoded);
 
@@ -57,7 +58,7 @@ exports.authenticate = asyncHandler(async (req, res, next) => {
 	token = req.cookies.token;
 	if (token && token != "none") {
 		// Verify token
-		const decoded = jwt.verify(token, secret.jwt_secret_key);
+		const decoded = jwt.verify(token, process.env.jwt_secret_key);
 
 		req.user = await User.findById(decoded.id);
 	}

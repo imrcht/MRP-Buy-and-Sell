@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const errorResponse = require("../middleware/error");
 const asyncHandler = require("../middleware/async");
-const secret = require("../security");
+// const secret = require("../security");
+require('dotenv').config();
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
 const sendSms = require("../utils/sendSms");
@@ -432,13 +433,13 @@ exports.postResetPassword = asyncHandler(async (req, res, next) => {
 
 // create and send cookie and token
 const sendTokenResponse = (user, statusCode, res) => {
-	const token = jwt.sign({ id: user._id }, secret.jwt_secret_key, {
-		expiresIn: secret.jwt_expire,
+	const token = jwt.sign({ id: user._id }, process.env.jwt_secret_key, {
+		expiresIn: process.env.jwt_expire,
 	});
 
 	const options = {
 		expires: new Date(
-			Date.now() + secret.jwt_cookie_expire * 24 * 60 * 60 * 1000,
+			Date.now() + process.env.jwt_cookie_expire * 24 * 60 * 60 * 1000,
 		),
 		httpOnly: true,
 	};

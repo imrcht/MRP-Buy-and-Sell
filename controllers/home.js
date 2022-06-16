@@ -1,7 +1,8 @@
 const asyncHandler = require("../middleware/async");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const secret = require("../security");
+// const secret = require("../security");
+require('dotenv').config();
 
 exports.getAuth = asyncHandler(async (req, res, next) => {
 	let token;
@@ -14,7 +15,7 @@ exports.getAuth = asyncHandler(async (req, res, next) => {
 	}
 
 	// Verify token
-	const decoded = jwt.verify(token, secret.jwt_secret_key);
+	const decoded = jwt.verify(token, process.env.jwt_secret_key);
 
 	req.user = await User.findById(decoded.id);
 	if (req.user) {

@@ -1,19 +1,20 @@
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
-const secrets = require("../security");
+// const secrets = require("../security");
+require('dotenv').config();
 
 const sendEmail = async (options) => {
 	// create transport
 	var transport = nodemailer.createTransport({
 		service: "gmail",
 		auth: {
-			user: secrets.email,
-			pass: secrets.gmailpassword,
+			user: process.env.email,
+			pass: process.env.gmailpassword,
 		},
 	});
 
 	var mailOptions = {
-		from: `"Admin-MRP" <${secrets.email}>`,
+		from: `"Admin-MRP" <${process.env.email}>`,
 		to: options.email,
 		subject: "Reset Password URL",
 		html: `<head>

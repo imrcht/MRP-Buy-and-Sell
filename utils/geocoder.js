@@ -1,9 +1,10 @@
 const nodeGeocoder = require("node-geocoder");
-const confi = require("../security");
+// const confi = require("../security");
+require('dotenv').config();
 
 const options = {
-	provider: confi.provider,
-	apiKey: confi.apiKey,
+	provider: process.env.provider,
+	apiKey: process.env.apiKey,
 	formatter: null,
 };
 
