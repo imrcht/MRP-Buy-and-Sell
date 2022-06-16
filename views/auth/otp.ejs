@@ -32,10 +32,7 @@
 								<div class="text-center">
 									<h3><i class="fa fa-user fa-4x"></i></h3>
 									<h2 class="text-center">VERIFICATION</h2>
-									<p>
-										Enter the 4 digit otp sent to your
-										registered Mobile no. and Email id.
-									</p>
+									<p>Enter the otp sent to Email id.</p>
 									<div class="panel-body">
 										<form
 											id="register-form"
@@ -47,39 +44,11 @@
 										>
 											<div class="form-group">
 												<div><%=err%></div>
+
 												<div class="input-group">
-													<span
-														class="
-															input-group-addon
-														"
-														><i
-															class="
-																fa fa-mobile
-																color-blue
-															"
-														></i
-													></span>
-													<input
-														id="otp"
-														name="smsotp"
-														placeholder="otp recived on your mobile"
-														class="form-control"
-														type="password"
-														value="<%=smsotp%>"
-													/>
-												</div>
-												<div class="input-group">
-													<span
-														class="
-															input-group-addon
-														"
-														><i
-															class="
-																fa fa-envelope
-																color-blue
-															"
-														></i
-													></span>
+													<span class="input-group-addon">
+														<i class="fa fa-envelope color-blue"></i>
+													</span>
 													<input
 														id="otp"
 														name="emailotp"
@@ -93,12 +62,7 @@
 											<div class="form-group">
 												<input
 													name="recover-submit"
-													class="
-														btn
-														btn-lg
-														btn-primary
-														btn-block
-													"
+													class="btn btn-lg btn-primary btn-block"
 													value="VERIFY"
 													type="submit"
 												/>

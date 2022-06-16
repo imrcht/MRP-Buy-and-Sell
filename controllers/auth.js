@@ -1,30 +1,30 @@
-const User = require("../models/User");
-const Product = require("../models/Product");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const errorResponse = require("../middleware/error");
-const asyncHandler = require("../middleware/async");
+const User = require('../models/User');
+const Product = require('../models/Product');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const errorResponse = require('../middleware/error');
+const asyncHandler = require('../middleware/async');
 // const secret = require("../security");
 require('dotenv').config();
-const sendEmail = require("../utils/sendEmail");
-const crypto = require("crypto");
-const sendSms = require("../utils/sendSms");
-const sendEmailOtp = require("../utils/sendEmailOtp");
+const sendEmail = require('../utils/sendEmail');
+const crypto = require('crypto');
+const sendSms = require('../utils/sendSms');
+const sendEmailOtp = require('../utils/sendEmailOtp');
 
 let registerdata;
 var otp = {
-	emailotp: "",
-	smsotp: "",
+	emailotp: '',
+	smsotp: '',
 };
 
 // @desc 	Get login page
 // @route 	GET users/login
 // @access	public
 exports.getLogin = (req, res, next) => {
-	res.render("auth/login", {
-		err: "",
-		username: "",
-		password: "",
+	res.render('auth/login', {
+		err: '',
+		username: '',
+		password: '',
 	});
 };
 
@@ -32,16 +32,16 @@ exports.getLogin = (req, res, next) => {
 // @route 	GET users/register
 // @access	public
 exports.getRegister = (req, res, next) => {
-	res.render("auth/register", {
-		err: "",
-		name: "",
-		email: "",
-		password: "",
-		confirmPassword: "",
-		city: "",
-		address: "",
-		phone: "",
-		zipcode: "",
+	res.render('auth/register', {
+		err: '',
+		name: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
+		city: '',
+		address: '',
+		phone: '',
+		zipcode: '',
 	});
 };
 
@@ -49,8 +49,8 @@ exports.getRegister = (req, res, next) => {
 // @route 	GET users/forgotpassword
 // @access	public
 exports.getForgotPassword = (req, res, next) => {
-	res.render("auth/forgot", {
-		msg: "You can reset your password here.",
+	res.render('auth/forgot', {
+		msg: 'You can reset your password here.',
 	});
 };
 
@@ -59,9 +59,9 @@ exports.getForgotPassword = (req, res, next) => {
 // @access	public
 exports.getResetPassword = async (req, res, next) => {
 	const resetPasswordToken = crypto
-		.createHash("sha1")
+		.createHash('sha1')
 		.update(req.params.resetToken)
-		.digest("hex");
+		.digest('hex');
 
 	const user = await User.findOne({
 		resetPasswordToken,
@@ -71,12 +71,12 @@ exports.getResetPassword = async (req, res, next) => {
 	});
 
 	if (!user) {
-		return res.status(400).render("error", {
-			msg: "Invalid/ Expird Token",
+		return res.status(400).render('error', {
+			msg: 'Invalid/ Expird Token',
 			statuscode: 400,
 		});
 	}
-	res.render("auth/reset");
+	res.render('auth/reset');
 };
 
 // @desc Get update password page
@@ -88,14 +88,14 @@ exports.getUpdateMyPassword = asyncHandler(async (req, res, next) => {
 	const user = await User.findById(userId);
 
 	if (!user) {
-		res.status(500).render("error", {
+		res.status(500).render('error', {
 			msg: `user cannot be found`,
 			statuscode: 404,
 		});
 	}
-	res.render("auth/updatePassword", {
+	res.render('auth/updatePassword', {
 		userId: userId,
-		error: "",
+		error: '',
 	});
 });
 
@@ -106,8 +106,8 @@ exports.updateMyPassword = asyncHandler(async (req, res, next) => {
 	const user = await User.findById(req.user.id);
 
 	if (req.body.newPassword != req.body.confirmNewPassword) {
-		return res.render("auth/updatePassword", {
-			error: "Confirm Password is not matched",
+		return res.render('auth/updatePassword', {
+			error: 'Confirm Password is not matched',
 		});
 	}
 
@@ -116,15 +116,15 @@ exports.updateMyPassword = asyncHandler(async (req, res, next) => {
 		req.user.password,
 	);
 	if (!isMatch) {
-		return res.render("auth/updatePassword", {
-			error: "Current password is incorrect",
+		return res.render('auth/updatePassword', {
+			error: 'Current password is incorrect',
 		});
 	}
 	const hashedPw = await bcrypt.hash(req.body.newPassword, 10);
 	user.password = hashedPw;
 	await user.save({ validateBeforeSave: false });
 
-	res.redirect("/users/me");
+	res.redirect('/users/me');
 });
 
 // @desc 	Get User Products Page
@@ -132,10 +132,10 @@ exports.updateMyPassword = asyncHandler(async (req, res, next) => {
 // @access	Protected
 exports.getMyProducts = asyncHandler(async (req, res, next) => {
 	const userId = req.params.userId;
-	const user = await User.findById(userId).populate("listedProducts");
+	const user = await User.findById(userId).populate('listedProducts');
 
 	if (!user) {
-		res.status(500).render("error", {
+		res.status(500).render('error', {
 			msg: `user cannot be found`,
 			statuscode: 500,
 		});
@@ -151,12 +151,12 @@ exports.getMyProducts = asyncHandler(async (req, res, next) => {
 // @access	Public
 exports.postRegister = asyncHandler(async (req, res, next) => {
 	if (req.body.password !== req.body.confirmPassword) {
-		return res.render("auth/register", {
+		return res.render('auth/register', {
 			err: `Password Doesn't match`,
 			name: req.body.name,
 			email: req.body.email,
-			password: "",
-			confirmPassword: "",
+			password: '',
+			confirmPassword: '',
 			city: req.body.city,
 			address: req.body.address,
 			phone: req.body.phone,
@@ -170,28 +170,28 @@ exports.postRegister = asyncHandler(async (req, res, next) => {
 	// emailotp
 	otp.emailotp = Math.round(Math.random() * 1000000);
 
-	// smsotp
-	otp.smsotp = Math.round(Math.random() * 1000000);
+	// // smsotp
+	// otp.smsotp = Math.round(Math.random() * 1000000);
 
-	// options for sms
-	const smsoptions = {
-		message: `OTP for registering in MRP-Buy&Sell - ${otp.smsotp}`,
-		number: req.body.phone,
-	};
-	const smsResult = sendSms(smsoptions);
+	// // options for sms
+	// const smsoptions = {
+	// 	message: `OTP for registering in MRP-Buy&Sell - ${otp.smsotp}`,
+	// 	number: req.body.phone,
+	// };
+	// const smsResult = sendSms(smsoptions);
 
 	// options for email
 	const emailoptions = {
 		otp: otp.emailotp,
 		email: req.body.email,
-		subject: "OTP for Registering in MRP-Buy&Sell",
+		subject: 'OTP for Registering in MRP-Buy&Sell',
 	};
 	const emailResult = sendEmailOtp(emailoptions);
 
-	res.render("auth/otp", {
-		err: "",
-		smsotp: "",
-		emailotp: "",
+	res.render('auth/otp', {
+		err: '',
+		smsotp: '',
+		emailotp: '',
 	});
 });
 
@@ -201,25 +201,25 @@ exports.postRegister = asyncHandler(async (req, res, next) => {
 
 exports.postOtp = asyncHandler(async (req, res, next) => {
 	const emailotp = req.body.emailotp;
-	const smsotp = req.body.smsotp;
+	// const smsotp = req.body.smsotp;
 
 	// Verifying email Otp
 	if (emailotp != otp.emailotp) {
-		return res.render("auth/otp", {
-			err: "Wrong Email OTP !!",
-			smsotp,
-			emailotp: "",
+		return res.render('auth/otp', {
+			err: 'Wrong Email OTP !!',
+			// smsotp,
+			emailotp: '',
 		});
 	}
 
 	// verifying sms otp
-	if (smsotp != otp.smsotp) {
-		return res.render("auth/otp", {
-			err: "Wrong Sms OTP!!",
-			smsotp: "",
-			emailotp,
-		});
-	}
+	// if (smsotp != otp.smsotp) {
+	// 	return res.render('auth/otp', {
+	// 		err: 'Wrong Sms OTP!!',
+	// 		smsotp: '',
+	// 		emailotp,
+	// 	});
+	// }
 
 	const newUser = new User({
 		name: registerdata.name,
@@ -233,7 +233,7 @@ exports.postOtp = asyncHandler(async (req, res, next) => {
 
 	const result = await newUser.save();
 
-	res.status(201).redirect("/users/login");
+	res.status(201).redirect('/users/login');
 });
 
 // @desc 	login a user
@@ -244,36 +244,36 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
 	const password = req.body.password;
 
 	if (!email) {
-		return res.status(400).render("auth/login", {
-			err: "Please enter username",
-			username: "",
+		return res.status(400).render('auth/login', {
+			err: 'Please enter username',
+			username: '',
 			password,
 		});
 	}
 	if (!password) {
-		return res.status(400).render("auth/login", {
-			err: "Please enter password",
+		return res.status(400).render('auth/login', {
+			err: 'Please enter password',
 			username: email,
-			password: "",
+			password: '',
 		});
 	}
 	const user = await User.findOne({ email: email });
 
 	if (!user) {
-		return res.status(404).render("auth/login", {
-			err: "User not found!!",
-			username: "",
-			password: "",
+		return res.status(404).render('auth/login', {
+			err: 'User not found!!',
+			username: '',
+			password: '',
 		});
 	}
 
 	const isEqual = await bcrypt.compare(password, user.password);
 
 	if (!isEqual) {
-		return res.status(401).render("auth/login", {
-			err: "Invalid password!! Try again",
+		return res.status(401).render('auth/login', {
+			err: 'Invalid password!! Try again',
 			username: email,
-			password: "",
+			password: '',
 		});
 	}
 
@@ -284,9 +284,9 @@ exports.postLogin = asyncHandler(async (req, res, next) => {
 // @route 	GET users/me
 // @access	Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-	const user = await User.findById(req.user.id).populate("listedProducts");
+	const user = await User.findById(req.user.id).populate('listedProducts');
 
-	res.render("auth/profile", {
+	res.render('auth/profile', {
 		user: user,
 	});
 });
@@ -303,7 +303,7 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
 	const updatedZipcode = req.body.zipcode;
 
 	const user = await User.findOne({ email: req.user.email }).populate(
-		"listedProducts",
+		'listedProducts',
 	);
 
 	// if (!user) {
@@ -337,7 +337,7 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
 
 	await user.save({ validateBeforeSave: false });
 
-	res.status(200).render("auth/profile", {
+	res.status(200).render('auth/profile', {
 		user,
 	});
 });
@@ -346,11 +346,11 @@ exports.updateMe = asyncHandler(async (req, res, next) => {
 // @route 	GET users/logout
 // @access	Private
 exports.logout = asyncHandler(async (req, res, next) => {
-	res.cookie("token", "none", {
+	res.cookie('token', 'none', {
 		expires: new Date(Date.now() + 10 * 1000),
 	});
 
-	res.redirect("/");
+	res.redirect('/');
 });
 
 // @desc 	Generate Forgot Password token
@@ -359,7 +359,7 @@ exports.logout = asyncHandler(async (req, res, next) => {
 exports.postForgotPassword = asyncHandler(async (req, res, next) => {
 	const user = await User.findOne({ email: req.body.email });
 	if (!user) {
-		return res.status(404).render("auth/forgot", {
+		return res.status(404).render('auth/forgot', {
 			msg: `No user found with email ${req.body.email} !! Try again`,
 		});
 	}
@@ -369,21 +369,21 @@ exports.postForgotPassword = asyncHandler(async (req, res, next) => {
 	await user.save({ validateBeforeSave: false });
 
 	resetUrl = `${req.protocol}://${req.get(
-		"host",
+		'host',
 	)}/users/resetpassword/${resetPasswordToken}`;
 	const options = {
-		heading: "You have requested to reset your password",
+		heading: 'You have requested to reset your password',
 		mainmessage:
-			"We cannot simply send you your old password. A unique link to reset your password has been generated for you. To reset your password, click the following link.",
+			'We cannot simply send you your old password. A unique link to reset your password has been generated for you. To reset your password, click the following link.',
 		Url: resetUrl,
-		buttonMessage: "Reset Password",
+		buttonMessage: 'Reset Password',
 		email: user.email,
-		subject: "Reset Password URL",
+		subject: 'Reset Password URL',
 	};
 
 	try {
 		sendEmail(options);
-		res.status(201).render("success", {
+		res.status(201).render('success', {
 			msg: `Reset password link has successfully been sent to ${user.email}`,
 		});
 	} catch (err) {
@@ -392,7 +392,7 @@ exports.postForgotPassword = asyncHandler(async (req, res, next) => {
 
 		await user.save({ validateBeforeSave: false });
 		console.log(err);
-		res.status(500).render("error", {
+		res.status(500).render('error', {
 			msg: `Email could not be sent`,
 			statuscode: 500,
 		});
@@ -404,9 +404,9 @@ exports.postForgotPassword = asyncHandler(async (req, res, next) => {
 // @access	Public
 exports.postResetPassword = asyncHandler(async (req, res, next) => {
 	const resetPasswordToken = crypto
-		.createHash("sha1")
+		.createHash('sha1')
 		.update(req.params.resetToken)
-		.digest("hex");
+		.digest('hex');
 
 	const user = await User.findOne({
 		resetPasswordToken,
@@ -416,8 +416,8 @@ exports.postResetPassword = asyncHandler(async (req, res, next) => {
 	});
 
 	if (!user) {
-		return res.status(400).render("error", {
-			msg: "Invalid/ Expird Token",
+		return res.status(400).render('error', {
+			msg: 'Invalid/ Expird Token',
 			statuscode: 400,
 		});
 	}
@@ -428,7 +428,7 @@ exports.postResetPassword = asyncHandler(async (req, res, next) => {
 	user.resetPasswordExpire = undefined;
 	user.save();
 
-	res.status(200).redirect("/users/login");
+	res.status(200).redirect('/users/login');
 });
 
 // create and send cookie and token
@@ -444,5 +444,5 @@ const sendTokenResponse = (user, statusCode, res) => {
 		httpOnly: true,
 	};
 
-	res.status(statusCode).cookie("token", token, options).redirect("/");
+	res.status(statusCode).cookie('token', token, options).redirect('/');
 };
